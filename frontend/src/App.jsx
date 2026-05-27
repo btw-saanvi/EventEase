@@ -6,13 +6,14 @@ import PublicLayout from "./components/layout/PublicLayout";
 import AppLayout from "./components/layout/AppLayout";
 
 // Public pages
-import Index from "./pages/Index";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import SetNewPassword from "./pages/SetNewPassword";
 import NotFound from "./pages/NotFound";
+import Packages from "./pages/Packages";
+import Quotations from "./pages/Quotations";
 
 // Auth pages
 import Welcome from "./pages/Welcome";
@@ -31,8 +32,10 @@ export default function App() {
     <Routes>
       {/* Public routes */}
       <Route element={<PublicLayout />}>
-        <Route path="/" element={<Index />} />
+        <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/packages" element={<Packages />} />
+        <Route path="/quotations" element={<Quotations />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />

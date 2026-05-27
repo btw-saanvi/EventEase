@@ -7,70 +7,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        vapor: {
-          lavender: "#c4b5fd",
-          indigo: "#818cf8",
-          cyan: "#67e8f9",
-          ice: "#a5f3fc",
-          pink: "#f0abfc",
-          purple: "#a78bfa",
-          violet: "#7c3aed",
-          dark: "#0a0a0f",
-          darker: "#050508",
-          card: "rgba(255,255,255,0.04)",
-          border: "rgba(196,181,253,0.15)",
+        oatly: {
+          bg: "#F9F5F0", // Creamy off-white
+          text: "#1E1E1E", // Soft black
+          pink: "#FFB0C2", // Vibrant pastel pink
+          blue: "#A7D7E8", // Light sky blue
+          yellow: "#FFD933", // Bright yellow
+          brown: "#5C4033", // Dark chocolate brown
+          green: "#A4CBA3", // Soft pastel green
+          border: "#1E1E1E", // Chunky borders
         },
       },
       fontFamily: {
-        heading: ["Sora", "system-ui", "sans-serif"],
-        body: ["Manrope", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
+        heading: ["'Titan One'", "system-ui", "sans-serif"],
+        body: ["'DM Sans'", "system-ui", "sans-serif"],
       },
-      backgroundImage: {
-        "vapor-gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        "aurora-1": "linear-gradient(135deg, #c4b5fd 0%, #818cf8 25%, #67e8f9 50%, #f0abfc 75%, #c4b5fd 100%)",
-        "mesh-dark": "radial-gradient(at 40% 20%, hsla(261,97%,72%,0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189,100%,56%,0.1) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(286,96%,82%,0.1) 0px, transparent 50%), radial-gradient(at 80% 50%, hsla(240,100%,72%,0.1) 0px, transparent 50%), radial-gradient(at 0% 100%, hsla(261,97%,72%,0.1) 0px, transparent 50%)",
+      boxShadow: {
+        'brutal': '4px 4px 0px 0px rgba(30, 30, 30, 1)',
+        'brutal-lg': '8px 8px 0px 0px rgba(30, 30, 30, 1)',
+        'brutal-hover': '2px 2px 0px 0px rgba(30, 30, 30, 1)',
       },
       keyframes: {
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-12px)" },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
         },
-        "aurora-shift": {
-          "0%, 100%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
-        },
-        "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px rgba(196,181,253,0.3)" },
-          "50%": { boxShadow: "0 0 40px rgba(196,181,253,0.6), 0 0 80px rgba(129,140,248,0.3)" },
-        },
-        "slide-in-up": {
-          "0%": { transform: "translateY(20px)", opacity: "0" },
-          "100%": { transform: "translateY(0)", opacity: "1" },
-        },
-        "fade-in": {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
-        },
-        shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
-        },
-        spin: {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(360deg)" },
-        }
       },
       animation: {
-        float: "float 4s ease-in-out infinite",
-        "aurora-shift": "aurora-shift 8s ease infinite",
-        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
-        "slide-in-up": "slide-in-up 0.4s ease-out",
-        "fade-in": "fade-in 0.3s ease-out",
-        shimmer: "shimmer 2s linear infinite",
-      },
-      backdropBlur: {
-        xs: "2px",
+        wiggle: 'wiggle 1s ease-in-out infinite',
       },
     },
   },
