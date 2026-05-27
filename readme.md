@@ -131,6 +131,35 @@ Open: `http://localhost:5173`
 
 ---
 
+## Deploy on Vercel
+
+1. Push this repo to GitHub and import it in [Vercel](https://vercel.com).
+2. Keep the **root directory** as the repo root (where `vercel.json` lives).
+3. Add these environment variables in Vercel → Project → Settings → Environment Variables:
+
+**Backend**
+- `MONGODB_URI`
+- `JWT_SECRET`
+- `GOOGLE_CLIENT_ID`
+
+**Frontend (build-time)**
+- `VITE_GOOGLE_CLIENT_ID`
+- `VITE_API_URL` = `/api`
+
+4. Redeploy after saving env vars.
+
+### Why 404 happens on Vercel
+
+The most common cause is the SPA fallback pointing to the wrong file path. Vercel serves the Vite build from the deployment root (`/index.html`, `/assets/...`), not `/frontend/dist/index.html`. This repo’s `vercel.json` uses:
+
+- `/api/*` → Express backend
+- static files from the build output
+- all other routes → `/index.html` (React Router)
+
+If assets or pages still 404, open DevTools → Network and check which exact URL fails (JS bundle, API route, or favicon).
+
+---
+
 ## Scripts
 
 ### Backend

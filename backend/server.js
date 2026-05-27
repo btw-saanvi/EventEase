@@ -2,13 +2,32 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const path = require("path");
+const fs = require("fs");
 
 dotenv.config({ override: true });
 
 const app = express();
 
 // ─── Middleware ─────────────────────────────────────────────────
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL,
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== "production") {
+        callback(null, true);
+      } else {
+        callback(null, true);
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,9 +49,18 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/profile", profileRoutes);
 
 // ─── Health Check ────────────────────────────────────────────────
-app.get("/", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.json({ message: "EventEase API is running", version: "1.0.0" });
 });
+
+// Serve built frontend when running backend locally in production mode
+const frontendDist = path.join(__dirname, "../frontend/dist");
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get(/^\/(?!api).*/, (req, res) => {
+    res.sendFile(path.join(frontendDist, "index.html"));
+  });
+}
 
 // ─── Error Handler ───────────────────────────────────────────────
 app.use((err, req, res, next) => {
