@@ -11,7 +11,7 @@ router.use(verifyToken);
 router.get("/", async (req, res) => {
   try {
     const events = await Event.find({ userId: req.user.id }).sort({ date: 1 });
-    res.json(events);
+    res.json({ events });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

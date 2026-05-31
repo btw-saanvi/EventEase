@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     const filter = { userId: req.user.id };
     if (eventId) filter.eventId = eventId;
     const guests = await Guest.find(filter).sort({ name: 1 });
-    res.json(guests);
+    res.json({ guests });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

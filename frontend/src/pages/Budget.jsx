@@ -77,16 +77,6 @@ function ExpenseModal({ expense, onClose, onSave, eventId }) {
               />
             </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5">Event ID (optional)</label>
-            <input
-              type="text"
-              value={form.eventId}
-              onChange={(e) => setForm({ ...form, eventId: e.target.value })}
-              placeholder="Link to an event"
-              className="vapor-input w-full"
-            />
-          </div>
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose} className="btn-vapor flex-1 py-2.5">Cancel</button>
             <button type="submit" className="btn-vapor-solid flex-1 py-2.5">{expense ? "Save Changes" : "Add Expense"}</button>
@@ -116,21 +106,26 @@ export default function Budget() {
   const spentPercent = Math.min(100, (totalSpent / totalBudget) * 100);
 
   const createMutation = useMutation({
-    mutationFn: (d) => api.post("/budget", d),
+    mutationFn: (d) => api.post("/budget/expenses", d),
     onSuccess: () => { queryClient.invalidateQueries(["budget"]); toast.success("Expense added!"); setShowModal(false); },
     onError: () => toast.error("Failed to add expense"),
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => api.put(`/budget/${id}`, data),
+    mutationFn: ({ id, data }) => api.put(`/budget/expenses/${id}`, data),
     onSuccess: () => { queryClient.invalidateQueries(["budget"]); toast.success("Expense updated!"); setEditExpense(null); },
     onError: () => toast.error("Failed to update"),
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => api.delete(`/budget/${id}`),
+    mutationFn: (id) => api.delete(`/budget/expenses/${id}`),
     onSuccess: () => { queryClient.invalidateQueries(["budget"]); toast.success("Expense removed"); },
     onError: () => toast.error("Failed to delete"),
+  });
+
+  const updateBudgetMutation = useMutation({
+    mutationFn: (amount) => api.put("/budget", { totalBudget: amount }),
+    onSuccess: () => { queryClient.invalidateQueries(["budget"]); toast.success("Budget updated"); },
   });
 
   // Category breakdown
@@ -173,7 +168,12 @@ export default function Budget() {
                 className="vapor-input flex-1 text-sm py-1"
               />
               <button
-                onClick={() => { setTotalBudget(parseFloat(budgetInput)); setEditingBudget(false); }}
+                onClick={() => { 
+                  const amt = parseFloat(budgetInput);
+                  setTotalBudget(amt); 
+                  setEditingBudget(false); 
+                  updateBudgetMutation.mutate(amt);
+                }}
                 className="btn-vapor-solid px-3 py-1 text-xs"
               >
                 Set

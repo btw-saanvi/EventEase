@@ -1,0 +1,8 @@
+{
+  "name": "eventease",
+  "version": "1.0.0",
+  "description": "EventEase — MERN event planning platform",
+  "scripts": {
+    "build": "npm install --prefix frontend && npm run build --prefix frontend"
+  }
+}

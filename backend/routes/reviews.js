@@ -9,7 +9,7 @@ router.use(verifyToken);
 router.get("/", async (req, res) => {
   try {
     const reviews = await Review.find({ userId: req.user.id }).sort({ createdAt: -1 });
-    res.json(reviews);
+    res.json({ reviews });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -21,7 +21,7 @@ router.get("/vendor/:vendorId", async (req, res) => {
     const reviews = await Review.find({ vendorId: req.params.vendorId })
       .populate("userId", "name avatar")
       .sort({ createdAt: -1 });
-    res.json(reviews);
+    res.json({ reviews });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

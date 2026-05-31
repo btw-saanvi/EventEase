@@ -15,6 +15,7 @@ const guestSchema = new mongoose.Schema(
     dietary: { type: String, default: "" },
     table: { type: String, default: "" },
     notes: { type: String, default: "" },
+    plusOne: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

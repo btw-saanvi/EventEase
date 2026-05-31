@@ -74,12 +74,20 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/eventease";
 
-mongoose
-  .connect(MONGODB_URI)
+let cachedDb = null;
+
+const connectDB = async () => {
+  if (cachedDb) return cachedDb;
+  const conn = await mongoose.connect(MONGODB_URI);
+  cachedDb = conn;
+  return conn;
+};
+
+connectDB()
   .then(() => {
     console.log("✅ Connected to MongoDB");
-    // In Vercel serverless environment, Vercel will start the server, so we don't need app.listen
-    if (process.env.NODE_ENV !== "production") {
+    // Always start server in dev, or if not run by Vercel
+    if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
       app.listen(PORT, () => {
         console.log(`🚀 Server running on http://localhost:${PORT}`);
       });

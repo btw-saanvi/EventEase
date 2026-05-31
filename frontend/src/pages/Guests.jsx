@@ -14,7 +14,7 @@ const DIETARY = ["None", "Vegetarian", "Vegan", "Gluten-Free", "Halal", "Kosher"
 
 function GuestModal({ guest, onClose, onSave }) {
   const [form, setForm] = useState(
-    guest || { name: "", email: "", phone: "", rsvpStatus: "pending", tableNumber: "", dietaryRestrictions: "None", plusOne: false }
+    guest || { name: "", email: "", phone: "", rsvp: "pending", table: "", dietary: "None", plusOne: false }
   );
 
   const handleSubmit = (e) => {
@@ -48,18 +48,18 @@ function GuestModal({ guest, onClose, onSave }) {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-1.5">RSVP Status</label>
-              <select id="guest-rsvp" value={form.rsvpStatus} onChange={(e) => setForm({ ...form, rsvpStatus: e.target.value })} className="vapor-input w-full">
+              <select id="guest-rsvp" value={form.rsvp} onChange={(e) => setForm({ ...form, rsvp: e.target.value })} className="vapor-input w-full">
                 {Object.entries(RSVP_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-1.5">Table Number</label>
-              <input id="guest-table" type="text" value={form.tableNumber} onChange={(e) => setForm({ ...form, tableNumber: e.target.value })} placeholder="e.g. Table 5" className="vapor-input w-full" />
+              <input id="guest-table" type="text" value={form.table} onChange={(e) => setForm({ ...form, table: e.target.value })} placeholder="e.g. Table 5" className="vapor-input w-full" />
             </div>
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-1.5">Dietary Requirements</label>
-            <select id="guest-dietary" value={form.dietaryRestrictions} onChange={(e) => setForm({ ...form, dietaryRestrictions: e.target.value })} className="vapor-input w-full">
+            <select id="guest-dietary" value={form.dietary} onChange={(e) => setForm({ ...form, dietary: e.target.value })} className="vapor-input w-full">
               {DIETARY.map((d) => <option key={d} value={d}>{d}</option>)}
             </select>
           </div>
@@ -111,15 +111,15 @@ export default function Guests() {
 
   const filtered = guests.filter((g) => {
     const matchSearch = g.name.toLowerCase().includes(search.toLowerCase()) || g.email?.toLowerCase().includes(search.toLowerCase());
-    const matchRsvp = filterRsvp === "all" || g.rsvpStatus === filterRsvp;
+    const matchRsvp = filterRsvp === "all" || g.rsvp === filterRsvp;
     return matchSearch && matchRsvp;
   });
 
   const stats = [
     { label: "Total Guests", value: guests.length, color: "#818cf8" },
-    { label: "Confirmed", value: guests.filter((g) => g.rsvpStatus === "confirmed").length, color: "#34d399" },
-    { label: "Pending", value: guests.filter((g) => g.rsvpStatus === "pending").length, color: "#fbbf24" },
-    { label: "Declined", value: guests.filter((g) => g.rsvpStatus === "declined").length, color: "#f87171" },
+    { label: "Confirmed", value: guests.filter((g) => g.rsvp === "confirmed").length, color: "#34d399" },
+    { label: "Pending", value: guests.filter((g) => g.rsvp === "pending").length, color: "#fbbf24" },
+    { label: "Declined", value: guests.filter((g) => g.rsvp === "declined").length, color: "#f87171" },
   ];
 
   return (
@@ -200,7 +200,7 @@ export default function Guests() {
               </thead>
               <tbody className="divide-y divide-vapor-border/30">
                 {filtered.map((guest) => {
-                  const rsvp = RSVP_CONFIG[guest.rsvpStatus] || RSVP_CONFIG.pending;
+                  const rsvp = RSVP_CONFIG[guest.rsvp] || RSVP_CONFIG.pending;
                   const RsvpIcon = rsvp.icon;
                   return (
                     <tr key={guest._id} className="hover:bg-white/2 transition-colors">
@@ -222,11 +222,11 @@ export default function Guests() {
                           {rsvp.label}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm text-slate-400 hidden lg:table-cell">{guest.tableNumber || "—"}</td>
+                      <td className="px-4 py-3 text-sm text-slate-400 hidden lg:table-cell">{guest.table || "—"}</td>
                       <td className="px-4 py-3 hidden lg:table-cell">
-                        {guest.dietaryRestrictions && guest.dietaryRestrictions !== "None" ? (
+                        {guest.dietary && guest.dietary !== "None" ? (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-white/5 text-slate-300">
-                            <UtensilsCrossed className="w-3 h-3" />{guest.dietaryRestrictions}
+                            <UtensilsCrossed className="w-3 h-3" />{guest.dietary}
                           </span>
                         ) : <span className="text-slate-500 text-sm">None</span>}
                       </td>

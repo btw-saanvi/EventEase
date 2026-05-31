@@ -13,12 +13,12 @@ const STATUS_CONFIG = {
 
 function EventModal({ event, onClose, onSave }) {
   const [form, setForm] = useState(
-    event || { name: "", date: "", location: "", description: "", status: "planning", guestCount: 0 }
+    event || { title: "", date: "", venue: "", description: "", status: "planning", expectedGuests: 0 }
   );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.name || !form.date) return toast.error("Name and date are required");
+    if (!form.title || !form.date) return toast.error("Title and date are required");
     onSave(form);
   };
 
@@ -34,12 +34,12 @@ function EventModal({ event, onClose, onSave }) {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5">Event Name *</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1.5">Event Title *</label>
             <input
               id="event-name-input"
               type="text"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              value={form.title}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
               placeholder="e.g. Wedding Ceremony"
               className="vapor-input w-full"
               required
@@ -72,12 +72,12 @@ function EventModal({ event, onClose, onSave }) {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5">Location</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1.5">Venue</label>
             <input
               id="event-location-input"
               type="text"
-              value={form.location}
-              onChange={(e) => setForm({ ...form, location: e.target.value })}
+              value={form.venue}
+              onChange={(e) => setForm({ ...form, venue: e.target.value })}
               placeholder="e.g. Grand Ballroom, Mumbai"
               className="vapor-input w-full"
             />
@@ -209,7 +209,7 @@ export default function Dashboard() {
               <div key={event._id} className="glass-card p-6 group hover:border-vapor-lavender/30 transition-all">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-heading font-semibold text-white truncate mb-1">{event.name}</h3>
+                    <h3 className="font-heading font-semibold text-white truncate mb-1">{event.title}</h3>
                     <span
                       className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
                       style={{ background: `${status.color}20`, color: status.color }}
@@ -243,10 +243,10 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="w-3.5 h-3.5 text-slate-500" />
-                    {event.guestCount || 0} guests
+                    {event.expectedGuests || 0} guests
                   </div>
-                  {event.location && (
-                    <p className="text-xs text-slate-500 truncate">📍 {event.location}</p>
+                  {event.venue && (
+                    <p className="text-xs text-slate-500 truncate">📍 {event.venue}</p>
                   )}
                 </div>
               </div>
