@@ -15,34 +15,98 @@ export function AuthProvider({ children }) {
 
   const [loading, setLoading] = useState(false);
 
-  // Called by Login/Signup pages after a successful Google OAuth token response
-  const loginWithGoogle = useCallback(async (tokenResponse) => {
+  // ── Email / Password ──────────────────────────────────────────
+  const loginWithEmail = useCallback(async (email, password) => {
     setLoading(true);
     try {
-      // Exchange the access token for user info, then send to backend
-      const userInfoRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-      });
-      const googleUser = await userInfoRes.json();
-
-      const res = await api.post("/auth/google", {
-        token: tokenResponse.access_token,
-        googleUser,
-      });
-
+      const res = await api.post("/auth/login", { email, password });
       const { token, user: userData } = res.data;
       localStorage.setItem("ee_token", token);
       localStorage.setItem("ee_user", JSON.stringify(userData));
       setUser(userData);
       return { success: true, user: userData };
     } catch (err) {
-      console.error("Auth error:", err);
+      return { success: false, error: err.response?.data?.message || err.message };
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const registerWithEmail = useCallback(async (name, email, password) => {
+    setLoading(true);
+    try {
+      const res = await api.post("/auth/register", { name, email, password });
+      const { token, user: userData } = res.data;
+      localStorage.setItem("ee_token", token);
+      localStorage.setItem("ee_user", JSON.stringify(userData));
+      setUser(userData);
+      return { success: true, user: userData };
+    } catch (err) {
+      return { success: false, error: err.response?.data?.message || err.message };
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // ── OTP / Password Reset ─────────────────────────────────────
+  const forgotPassword = useCallback(async (email) => {
+    setLoading(true);
+    try {
+      const res = await api.post("/auth/forgot-password", { email });
+      return { success: true, message: res.data.message, devOtp: res.data.devOtp };
+    } catch (err) {
+      return { success: false, error: err.response?.data?.message || err.message };
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const verifyOTP = useCallback(async (email, otp) => {
+    setLoading(true);
+    try {
+      const res = await api.post("/auth/verify-otp", { email, otp });
+      return { success: true, message: res.data.message };
+    } catch (err) {
+      return { success: false, error: err.response?.data?.message || err.message };
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const resetPassword = useCallback(async (email, otp, newPassword) => {
+    setLoading(true);
+    try {
+      const res = await api.post("/auth/reset-password", { email, otp, newPassword });
+      return { success: true, message: res.data.message };
+    } catch (err) {
+      return { success: false, error: err.response?.data?.message || err.message };
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // ── Google OAuth ─────────────────────────────────────────────
+  const loginWithGoogle = useCallback(async (tokenResponse) => {
+    setLoading(true);
+    try {
+      const userInfoRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+      });
+      const googleUser = await userInfoRes.json();
+      const res = await api.post("/auth/google", { token: tokenResponse.access_token, googleUser });
+      const { token, user: userData } = res.data;
+      localStorage.setItem("ee_token", token);
+      localStorage.setItem("ee_user", JSON.stringify(userData));
+      setUser(userData);
+      return { success: true, user: userData };
+    } catch (err) {
       return { success: false, error: err.message };
     } finally {
       setLoading(false);
     }
   }, []);
 
+  // ── Mock / Demo ──────────────────────────────────────────────
   const mockLogin = useCallback(async () => {
     setLoading(true);
     try {
@@ -53,13 +117,13 @@ export function AuthProvider({ children }) {
       setUser(userData);
       return { success: true, user: userData };
     } catch (err) {
-      console.error("Mock login error:", err);
       return { success: false, error: err.response?.data?.message || err.message };
     } finally {
       setLoading(false);
     }
   }, []);
 
+  // ── Logout / UpdateUser ──────────────────────────────────────
   const logout = useCallback(() => {
     localStorage.removeItem("ee_token");
     localStorage.removeItem("ee_user");
@@ -80,6 +144,11 @@ export function AuthProvider({ children }) {
         user,
         loading,
         isAuthenticated: !!user,
+        loginWithEmail,
+        registerWithEmail,
+        forgotPassword,
+        verifyOTP,
+        resetPassword,
         loginWithGoogle,
         mockLogin,
         logout,

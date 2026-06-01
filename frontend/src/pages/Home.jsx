@@ -110,7 +110,7 @@ export default function Home() {
 
       <section className="py-20 bg-oatly-bg border-b-[4px] border-black">
         <div className="section-container">
-          <div className="glass-card p-6 md:p-8 grid md:grid-cols-2 gap-8 items-center">
+          <div className="brutal-card bg-white p-6 md:p-8 grid md:grid-cols-2 gap-8 items-center">
             <img
               src="https://picsum.photos/seed/plan-perfect-celebration/1200/800"
               alt="Celebration setup"

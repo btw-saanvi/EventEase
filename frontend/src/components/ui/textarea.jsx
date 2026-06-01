@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils";
 const Textarea = React.forwardRef(({ className, ...props }, ref) => {
   return (
     <textarea
-      className={cn("input-vapor resize-none min-h-[100px]", className)}
+      className={cn("input-brutal resize-none min-h-[100px]", className)}
       ref={ref}
       {...props}
     />

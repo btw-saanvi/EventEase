@@ -10,7 +10,7 @@ function Tabs({ value, onValueChange, defaultValue, children, className, ...prop
 
   return (
     <TabsContext.Provider value={{ active, setActive }}>
-      <div className={cn("", className)} {...props}>
+      <div className={cn("w-full", className)} {...props}>
         {children}
       </div>
     </TabsContext.Provider>
@@ -21,7 +21,7 @@ function TabsList({ className, ...props }) {
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-1 rounded-xl bg-white/5 border border-vapor-border p-1",
+        "inline-flex items-center gap-2 bg-white border-[3px] border-black p-2 shadow-[4px_4px_0px_#1E1E1E] mb-6",
         className
       )}
       {...props}
@@ -31,14 +31,15 @@ function TabsList({ className, ...props }) {
 
 function TabsTrigger({ value, className, ...props }) {
   const { active, setActive } = React.useContext(TabsContext);
+  const isActive = active === value;
   return (
     <button
       onClick={() => setActive(value)}
       className={cn(
-        "px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200",
-        active === value
-          ? "bg-gradient-to-r from-violet-600 to-indigo-500 text-white shadow-md"
-          : "text-slate-400 hover:text-slate-200 hover:bg-white/5",
+        "px-4 py-2 text-sm font-heading uppercase transition-all duration-150 border-[2px] border-transparent text-black",
+        isActive
+          ? "bg-oatly-pink border-black shadow-[2px_2px_0px_#1E1E1E] -translate-y-[2px]"
+          : "hover:bg-oatly-yellow hover:border-black hover:shadow-[2px_2px_0px_#1E1E1E] hover:-translate-y-[2px]",
         className
       )}
       {...props}
@@ -50,7 +51,7 @@ function TabsContent({ value, className, children, ...props }) {
   const { active } = React.useContext(TabsContext);
   if (active !== value) return null;
   return (
-    <div className={cn("animate-fade-in", className)} {...props}>
+    <div className={cn("animate-fade-in w-full", className)} {...props}>
       {children}
     </div>
   );

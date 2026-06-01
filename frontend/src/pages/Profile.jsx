@@ -44,15 +44,16 @@ export default function Profile() {
 
   return (
     <div className="py-8 max-w-2xl mx-auto">
-      <div className="mb-8">
-        <h1 className="font-heading text-3xl font-bold text-white mb-1">Profile Settings</h1>
-        <p className="text-slate-400">Manage your personal information</p>
+      {/* Header */}
+      <div className="mb-8 border-b-3 border-black pb-6">
+        <h1 className="font-heading text-4xl text-black uppercase mb-1">Profile Settings</h1>
+        <p className="font-body font-bold text-black/60">Manage your personal information</p>
       </div>
 
       {/* Avatar Section */}
-      <div className="glass-card p-6 mb-6 flex items-center gap-6">
+      <div className="brutal-card bg-white p-6 mb-6 flex items-center gap-6">
         <div className="relative">
-          <div className="w-20 h-20 rounded-2xl overflow-hidden bg-gradient-to-br from-violet-600 to-cyan-500 flex items-center justify-center text-2xl font-bold text-white">
+          <div className="w-20 h-20 border-3 border-black bg-oatly-blue overflow-hidden shadow-[3px_3px_0px_#000] flex items-center justify-center text-2xl font-heading text-black flex-shrink-0">
             {avatarPreview ? (
               <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
@@ -61,96 +62,96 @@ export default function Profile() {
           </div>
           <label
             htmlFor="avatar-upload"
-            className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-gradient-to-br from-violet-600 to-cyan-500 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform"
+            className="absolute -bottom-2 -right-2 w-8 h-8 border-2 border-black bg-oatly-yellow shadow-[2px_2px_0px_#000] flex items-center justify-center cursor-pointer hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_#000] transition-all"
           >
-            <Camera className="w-4 h-4 text-white" />
+            <Camera className="w-4 h-4 text-black" />
           </label>
           <input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
         </div>
         <div>
-          <div className="font-heading font-semibold text-white text-lg">{user?.name || "User"}</div>
-          <div className="text-sm text-slate-400">{user?.email}</div>
-          <div className="flex items-center gap-1.5 mt-1">
-            <div className="w-2 h-2 rounded-full bg-green-400" />
-            <span className="text-xs text-slate-500">Verified with Google</span>
+          <div className="font-heading text-xl text-black uppercase leading-tight">{user?.name || "User"}</div>
+          <div className="text-sm font-body font-bold text-black/60 mt-0.5">{user?.email}</div>
+          <div className="flex items-center gap-1.5 mt-2 bg-oatly-green border-2 border-black shadow-[1.5px_1.5px_0px_#000] px-2 py-0.5 w-fit">
+            <div className="w-2 h-2 rounded-full bg-black/60" />
+            <span className="text-[10px] font-heading uppercase text-black">Verified with Google</span>
           </div>
         </div>
       </div>
 
       {/* Profile Form */}
-      <form onSubmit={handleSubmit} className="glass-card p-6 space-y-5">
-        <h2 className="font-heading text-lg font-semibold text-white flex items-center gap-2">
-          <User className="w-5 h-5 text-vapor-lavender" /> Personal Information
+      <form onSubmit={handleSubmit} className="brutal-card bg-white p-6 space-y-5">
+        <h2 className="font-heading text-xl text-black uppercase flex items-center gap-2 border-b-2 border-black pb-3">
+          <User className="w-5 h-5 text-black" /> Personal Information
         </h2>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1.5">Full Name</label>
+          <label className="block text-sm font-heading uppercase text-black mb-1.5">Full Name</label>
           <input
             id="profile-name"
             type="text"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="vapor-input w-full"
+            className="input-brutal w-full"
             placeholder="Your full name"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1.5 flex items-center gap-2">
-            <Mail className="w-3.5 h-3.5" /> Email Address
+          <label className="block text-sm font-heading uppercase text-black mb-1.5 flex items-center gap-2">
+            <Mail className="w-4 h-4" /> Email Address
           </label>
           <input
             id="profile-email"
             type="email"
             value={form.email}
-            className="vapor-input w-full opacity-60 cursor-not-allowed"
+            className="input-brutal w-full opacity-60 cursor-not-allowed bg-oatly-bg"
             disabled
             title="Email cannot be changed (managed by Google)"
           />
-          <p className="text-xs text-slate-500 mt-1">Managed by your Google account</p>
+          <p className="text-xs font-body font-bold text-black/50 mt-1">Managed by your Google account</p>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5 flex items-center gap-2">
-              <Phone className="w-3.5 h-3.5" /> Phone
+            <label className="block text-sm font-heading uppercase text-black mb-1.5 flex items-center gap-2">
+              <Phone className="w-4 h-4" /> Phone
             </label>
             <input
               id="profile-phone"
               type="tel"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              className="vapor-input w-full"
+              className="input-brutal w-full"
               placeholder="+91 98765 43210"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5 flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5" /> Location
+            <label className="block text-sm font-heading uppercase text-black mb-1.5 flex items-center gap-2">
+              <MapPin className="w-4 h-4" /> Location
             </label>
             <input
               id="profile-location"
               type="text"
               value={form.location}
               onChange={(e) => setForm({ ...form, location: e.target.value })}
-              className="vapor-input w-full"
+              className="input-brutal w-full"
               placeholder="Mumbai, India"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1.5">Bio</label>
+          <label className="block text-sm font-heading uppercase text-black mb-1.5">Bio</label>
           <textarea
             id="profile-bio"
             value={form.bio}
             onChange={(e) => setForm({ ...form, bio: e.target.value })}
             rows={3}
-            className="vapor-input w-full resize-none"
+            className="input-brutal w-full resize-none"
             placeholder="Tell us about yourself..."
             maxLength={300}
           />
-          <div className="text-xs text-slate-500 text-right mt-1">{form.bio.length}/300</div>
+          <div className="text-xs font-body font-bold text-black/50 text-right mt-1">{form.bio.length}/300</div>
         </div>
 
         <div className="pt-2">
@@ -158,12 +159,12 @@ export default function Profile() {
             id="save-profile-btn"
             type="submit"
             disabled={updateMutation.isPending}
-            className="btn-vapor-solid flex items-center gap-2 px-6 py-2.5 disabled:opacity-50"
+            className="btn-brutal btn-brutal-pink flex items-center gap-2 px-6 py-2.5 disabled:opacity-50"
           >
             {updateMutation.isPending ? (
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
             ) : (
-              <Save className="w-4 h-4" />
+              <Save className="w-4 h-4 text-black" />
             )}
             {updateMutation.isPending ? "Saving..." : "Save Changes"}
           </button>
@@ -171,20 +172,20 @@ export default function Profile() {
       </form>
 
       {/* Google Account Section */}
-      <div className="glass-card p-6 mt-6">
-        <h2 className="font-heading text-lg font-semibold text-white flex items-center gap-2 mb-4">
-          <Lock className="w-5 h-5 text-vapor-lavender" /> Account Security
+      <div className="brutal-card bg-white p-6 mt-6">
+        <h2 className="font-heading text-lg text-black uppercase flex items-center gap-2 mb-4 border-b-2 border-black/10 pb-3">
+          <Lock className="w-5 h-5 text-black" /> Account Security
         </h2>
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm font-medium text-slate-300">Google Authentication</div>
-            <div className="text-xs text-slate-500">Your account is secured with Google OAuth</div>
+            <div className="text-sm font-heading uppercase text-black">Google Authentication</div>
+            <div className="text-xs font-body font-bold text-black/50 mt-0.5">Your account is secured with Google OAuth</div>
           </div>
           <a
             href="https://myaccount.google.com/security"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-vapor text-xs px-4 py-2"
+            className="btn-brutal text-xs px-4 py-2"
           >
             Manage →
           </a>

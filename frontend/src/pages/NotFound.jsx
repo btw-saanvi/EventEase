@@ -3,24 +3,24 @@ import { Home, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/3 left-1/3 w-96 h-96 rounded-full bg-violet-600/10 blur-3xl animate-pulse" />
-      </div>
-      <div className="relative z-10 text-center">
-        <div className="font-heading text-[8rem] md:text-[12rem] font-bold leading-none text-gradient opacity-20 select-none">
+    <div className="min-h-screen bg-oatly-bg bg-mesh flex items-center justify-center px-4 py-16">
+      <div className="relative z-10 text-center max-w-md brutal-card bg-white p-8 md:p-12 shadow-[8px_8px_0px_#000]">
+        <div className="font-heading text-7xl md:text-8xl text-oatly-pink border-3 border-black bg-white inline-block px-6 py-2 shadow-[4px_4px_0px_#000] rotate-3 mb-8 select-none">
           404
         </div>
-        <h1 className="font-heading text-3xl md:text-4xl font-bold text-white -mt-8 mb-4">Page not found</h1>
-        <p className="text-slate-400 max-w-md mx-auto mb-10">
+        <h1 className="font-heading text-3xl text-black uppercase mb-3">Page not found</h1>
+        <p className="font-body font-bold text-black/60 mb-8 leading-relaxed">
           The page you're looking for doesn't exist or has been moved. Let's get you back on track.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link to="/" className="btn-vapor-solid flex items-center gap-2 px-6 py-3">
-            <Home className="w-4 h-4" /> Go Home
+          <Link to="/" className="btn-brutal btn-brutal-pink flex items-center gap-2 py-2.5 px-5 w-full sm:w-auto">
+            <Home className="w-4 h-4 text-black" /> Go Home
           </Link>
-          <button onClick={() => history.back()} className="btn-vapor flex items-center gap-2 px-6 py-3">
-            <ArrowLeft className="w-4 h-4" /> Go Back
+          <button
+            onClick={() => window.history.back()}
+            className="btn-brutal bg-white flex items-center gap-2 py-2.5 px-5 w-full sm:w-auto"
+          >
+            <ArrowLeft className="w-4 h-4 text-black" /> Go Back
           </button>
         </div>
       </div>

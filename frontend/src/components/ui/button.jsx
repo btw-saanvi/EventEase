@@ -3,25 +3,25 @@ import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vapor-lavender/50 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-heading uppercase tracking-wider border-[3px] border-black transition-all duration-150 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-r from-violet-600 via-indigo-500 to-cyan-500 text-white shadow-lg hover:shadow-violet-500/25 hover:shadow-xl hover:-translate-y-0.5",
-        outline: "border border-vapor-border bg-vapor-card text-vapor-lavender hover:border-vapor-lavender/40 hover:bg-white/5",
-        ghost: "text-slate-400 hover:text-vapor-lavender hover:bg-white/5",
-        destructive: "bg-red-500/20 border border-red-500/30 text-red-400 hover:bg-red-500/30",
-        secondary: "bg-white/5 border border-vapor-border text-slate-300 hover:border-vapor-lavender/30 hover:text-vapor-lavender",
-        vapor: "btn-vapor",
-        "vapor-solid": "btn-vapor-solid",
-        link: "text-vapor-lavender underline-offset-4 hover:underline",
+        default: "bg-oatly-yellow text-black shadow-[4px_4px_0px_#1E1E1E] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#1E1E1E] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[0px_0px_0px_#1E1E1E]",
+        outline: "bg-white text-black shadow-[4px_4px_0px_#1E1E1E] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#1E1E1E] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[0px_0px_0px_#1E1E1E]",
+        ghost: "border-transparent text-black hover:bg-black/5 hover:border-black",
+        destructive: "bg-red-400 text-black shadow-[4px_4px_0px_#1E1E1E] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#1E1E1E] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[0px_0px_0px_#1E1E1E]",
+        secondary: "bg-oatly-blue text-black shadow-[4px_4px_0px_#1E1E1E] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#1E1E1E] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[0px_0px_0px_#1E1E1E]",
+        vapor: "bg-white text-black shadow-[4px_4px_0px_#1E1E1E] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#1E1E1E] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[0px_0px_0px_#1E1E1E]",
+        "vapor-solid": "bg-oatly-yellow text-black shadow-[4px_4px_0px_#1E1E1E] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#1E1E1E] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[0px_0px_0px_#1E1E1E]",
+        link: "border-transparent text-black underline underline-offset-4 hover:text-oatly-pink",
       },
       size: {
-        default: "h-10 px-5 py-2",
-        sm: "h-8 px-3 text-xs rounded-lg",
-        lg: "h-12 px-8 text-base",
-        xl: "h-14 px-10 text-base",
-        icon: "h-10 w-10",
+        default: "h-12 px-6 py-2",
+        sm: "h-9 px-4 text-xs",
+        lg: "h-14 px-8 text-base",
+        xl: "h-16 px-10 text-lg",
+        icon: "h-12 w-12",
       },
     },
     defaultVariants: {

@@ -30,11 +30,13 @@ createRoot(document.getElementById("root")).render(
               position="top-right"
               toastOptions={{
                 style: {
-                  background: "rgba(15, 10, 30, 0.95)",
-                  border: "1px solid rgba(196, 181, 253, 0.2)",
-                  color: "#e2e8f0",
-                  fontFamily: "Manrope, sans-serif",
-                  backdropFilter: "blur(20px)",
+                  background: "#FFFFFF",
+                  border: "2px solid #1E1E1E",
+                  boxShadow: "4px 4px 0px #1E1E1E",
+                  color: "#1E1E1E",
+                  fontFamily: "'DM Sans', system-ui, sans-serif",
+                  fontWeight: "600",
+                  borderRadius: "0",
                 },
               }}
             />

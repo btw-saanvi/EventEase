@@ -10,7 +10,7 @@ const eventSchema = new mongoose.Schema(
     venue: { type: String, default: "" },
     status: {
       type: String,
-      enum: ["planning", "confirmed", "completed", "cancelled"],
+      enum: ["planning", "active", "confirmed", "completed", "cancelled"],
       default: "planning",
     },
     type: {

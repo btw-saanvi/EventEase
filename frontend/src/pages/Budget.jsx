@@ -10,10 +10,17 @@ const CATEGORIES = [
 ];
 
 const CATEGORY_COLORS = {
-  Venue: "#818cf8", Catering: "#67e8f9", Decoration: "#f0abfc",
-  Photography: "#c4b5fd", "Music & DJ": "#34d399", Flowers: "#fb7185",
-  Transport: "#fbbf24", Attire: "#a78bfa", Invitations: "#38bdf8",
-  Gifts: "#4ade80", Miscellaneous: "#94a3b8",
+  Venue: "#FFB0C2", // pink
+  Catering: "#FFD933", // yellow
+  Decoration: "#A7D7E8", // blue
+  Photography: "#A4CBA3", // green
+  "Music & DJ": "#FFB0C2",
+  Flowers: "#FFD933",
+  Transport: "#A7D7E8",
+  Attire: "#A4CBA3",
+  Invitations: "#FFB0C2",
+  Gifts: "#FFD933",
+  Miscellaneous: "#A7D7E8",
 };
 
 function formatCurrency(amount) {
@@ -32,39 +39,44 @@ function ExpenseModal({ expense, onClose, onSave, eventId }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="glass-card w-full max-w-md p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="font-heading text-xl font-bold text-white">{expense ? "Edit Expense" : "Add Expense"}</h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-white"><X className="w-5 h-5" /></button>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="brutal-card bg-white w-full max-w-md p-6 md:p-8">
+        <div className="flex items-center justify-between mb-6 border-b-2 border-black pb-4">
+          <h2 className="font-heading text-2xl text-black uppercase">{expense ? "Edit Expense" : "Add Expense"}</h2>
+          <button
+            onClick={onClose}
+            className="p-1 border-2 border-black bg-white hover:bg-oatly-pink transition-colors shadow-[2px_2px_0px_#000]"
+          >
+            <X className="w-5 h-5 text-black" />
+          </button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5">Description *</label>
+            <label className="block text-sm font-heading uppercase text-black mb-1.5">Description *</label>
             <input
               id="expense-description"
               type="text"
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               placeholder="e.g. Banquet Hall deposit"
-              className="vapor-input w-full"
+              className="input-brutal w-full"
               required
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1.5">Category</label>
+              <label className="block text-sm font-heading uppercase text-black mb-1.5">Category</label>
               <select
                 id="expense-category"
                 value={form.category}
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
-                className="vapor-input w-full"
+                className="input-brutal w-full bg-white cursor-pointer"
               >
                 {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1.5">Amount (₹) *</label>
+              <label className="block text-sm font-heading uppercase text-black mb-1.5">Amount (₹) *</label>
               <input
                 id="expense-amount"
                 type="number"
@@ -72,14 +84,14 @@ function ExpenseModal({ expense, onClose, onSave, eventId }) {
                 onChange={(e) => setForm({ ...form, amount: e.target.value })}
                 placeholder="0"
                 min="0"
-                className="vapor-input w-full"
+                className="input-brutal w-full"
                 required
               />
             </div>
           </div>
-          <div className="flex gap-3 pt-2">
-            <button type="button" onClick={onClose} className="btn-vapor flex-1 py-2.5">Cancel</button>
-            <button type="submit" className="btn-vapor-solid flex-1 py-2.5">{expense ? "Save Changes" : "Add Expense"}</button>
+          <div className="flex gap-4 pt-2">
+            <button type="button" onClick={onClose} className="btn-brutal bg-white w-full py-2.5">Cancel</button>
+            <button type="submit" className="btn-brutal btn-brutal-pink w-full py-2.5">{expense ? "Save Changes" : "Add Expense"}</button>
           </div>
         </form>
       </div>
@@ -137,24 +149,29 @@ export default function Budget() {
 
   return (
     <div className="py-8">
-      <div className="flex items-center justify-between mb-8">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8 border-b-3 border-black pb-6">
         <div>
-          <h1 className="font-heading text-3xl font-bold text-white mb-1">Budget Tracker</h1>
-          <p className="text-slate-400">Track your event expenses and stay on budget</p>
+          <h1 className="font-heading text-4xl text-black uppercase mb-1">Budget Tracker</h1>
+          <p className="font-body font-bold text-black/60">Track your event expenses and stay on budget</p>
         </div>
-        <button id="add-expense-btn" onClick={() => setShowModal(true)} className="btn-vapor-solid flex items-center gap-2 px-5 py-2.5">
-          <Plus className="w-4 h-4" /> Add Expense
+        <button
+          id="add-expense-btn"
+          onClick={() => setShowModal(true)}
+          className="btn-brutal btn-brutal-pink flex items-center gap-2 py-2.5 px-5"
+        >
+          <Plus className="w-5 h-5 text-black" /> Add Expense
         </button>
       </div>
 
       {/* Budget Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="stat-card md:col-span-1">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-slate-400">Total Budget</span>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+        <div className="brutal-card bg-white p-5">
+          <div className="flex items-center justify-between mb-1 border-b-2 border-black/10 pb-2">
+            <span className="text-xs font-heading uppercase text-black/60">Total Budget</span>
             <button
               onClick={() => { setEditingBudget(true); setBudgetInput(totalBudget); }}
-              className="text-xs text-vapor-lavender hover:underline"
+              className="text-xs font-heading uppercase text-oatly-blue hover:underline"
             >
               Edit
             </button>
@@ -165,7 +182,7 @@ export default function Budget() {
                 type="number"
                 value={budgetInput}
                 onChange={(e) => setBudgetInput(e.target.value)}
-                className="vapor-input flex-1 text-sm py-1"
+                className="input-brutal flex-1 text-sm py-1 px-2"
               />
               <button
                 onClick={() => { 
@@ -174,46 +191,45 @@ export default function Budget() {
                   setEditingBudget(false); 
                   updateBudgetMutation.mutate(amt);
                 }}
-                className="btn-vapor-solid px-3 py-1 text-xs"
+                className="btn-brutal btn-brutal-pink px-4 py-1 text-xs"
               >
                 Set
               </button>
             </div>
           ) : (
-            <div className="text-2xl font-heading font-bold text-white">{formatCurrency(totalBudget)}</div>
+            <div className="text-3xl font-heading text-black mt-2">{formatCurrency(totalBudget)}</div>
           )}
         </div>
-        <div className="stat-card">
-          <div className="text-xs text-slate-400 mb-1">Total Spent</div>
-          <div className="text-2xl font-heading font-bold" style={{ color: spentPercent > 90 ? "#f87171" : "#f0abfc" }}>
+
+        <div className={`brutal-card p-5 ${spentPercent > 90 ? "bg-[#FF6B6B]" : "bg-oatly-pink"}`}>
+          <div className="text-xs font-heading uppercase text-black/70 mb-1 border-b-2 border-black/10 pb-2">Total Spent</div>
+          <div className="text-3xl font-heading text-black mt-2">
             {formatCurrency(totalSpent)}
           </div>
-          <div className="text-xs text-slate-500 mt-1">{spentPercent.toFixed(1)}% of budget</div>
+          <div className="text-xs font-body font-bold text-black/60 mt-1">{spentPercent.toFixed(1)}% of budget</div>
         </div>
-        <div className="stat-card">
-          <div className="text-xs text-slate-400 mb-1">Remaining</div>
-          <div className="text-2xl font-heading font-bold" style={{ color: remaining < 0 ? "#f87171" : "#34d399" }}>
+
+        <div className={`brutal-card p-5 ${remaining < 0 ? "bg-[#FF6B6B]" : "bg-oatly-green"}`}>
+          <div className="text-xs font-heading uppercase text-black/70 mb-1 border-b-2 border-black/10 pb-2">Remaining</div>
+          <div className="text-3xl font-heading text-black mt-2">
             {formatCurrency(Math.abs(remaining))}
           </div>
-          <div className="text-xs text-slate-500 mt-1">{remaining < 0 ? "Over budget!" : "Available"}</div>
+          <div className="text-xs font-body font-bold text-black/60 mt-1">{remaining < 0 ? "Over budget!" : "Available"}</div>
         </div>
       </div>
 
       {/* Progress bar */}
-      <div className="glass-card p-4 mb-6">
-        <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-          <span>Budget Usage</span>
+      <div className="brutal-card bg-white p-5 mb-8">
+        <div className="flex items-center justify-between text-sm font-heading uppercase text-black mb-3">
+          <span>Budget Usage Tracker</span>
           <span>{spentPercent.toFixed(1)}%</span>
         </div>
-        <div className="h-3 rounded-full bg-white/5 overflow-hidden">
+        <div className="h-6 border-3 border-black bg-oatly-bg shadow-[2px_2px_0px_#000] overflow-hidden">
           <div
-            className="h-full rounded-full transition-all duration-700"
-            style={{
-              width: `${spentPercent}%`,
-              background: spentPercent > 90
-                ? "linear-gradient(90deg, #f87171, #ef4444)"
-                : "linear-gradient(90deg, #818cf8, #67e8f9)"
-            }}
+            className={`h-full border-r-3 border-black transition-all duration-700 ${
+              spentPercent > 90 ? "bg-[#FF6B6B]" : "bg-oatly-pink"
+            }`}
+            style={{ width: `${spentPercent}%` }}
           />
         </div>
       </div>
@@ -221,21 +237,24 @@ export default function Budget() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Category Breakdown */}
         {categoryBreakdown.length > 0 && (
-          <div className="glass-card p-5 lg:col-span-1">
-            <h3 className="font-heading font-semibold text-white mb-4 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-vapor-lavender" /> By Category
+          <div className="brutal-card bg-white p-5 lg:col-span-1">
+            <h3 className="font-heading text-xl text-black uppercase mb-5 border-b-2 border-black pb-3 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-black" /> By Category
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {categoryBreakdown.map((cat) => (
                 <div key={cat.name}>
-                  <div className="flex items-center justify-between text-sm mb-1">
-                    <span className="text-slate-300">{cat.name}</span>
-                    <span className="font-medium" style={{ color: cat.color }}>{formatCurrency(cat.amount)}</span>
+                  <div className="flex items-center justify-between text-sm font-body font-bold text-black mb-1.5">
+                    <span>{cat.name}</span>
+                    <span>{formatCurrency(cat.amount)}</span>
                   </div>
-                  <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                  <div className="h-3 border-2 border-black bg-oatly-bg overflow-hidden shadow-[1px_1px_0px_#000]">
                     <div
-                      className="h-full rounded-full"
-                      style={{ width: `${(cat.amount / totalSpent) * 100}%`, background: cat.color }}
+                      className="h-full border-r-2 border-black"
+                      style={{
+                        width: `${(cat.amount / totalSpent) * 100}%`,
+                        backgroundColor: cat.color,
+                      }}
                     />
                   </div>
                 </div>
@@ -245,38 +264,54 @@ export default function Budget() {
         )}
 
         {/* Expense List */}
-        <div className={`glass-card p-5 ${categoryBreakdown.length > 0 ? "lg:col-span-2" : "lg:col-span-3"}`}>
-          <h3 className="font-heading font-semibold text-white mb-4 flex items-center gap-2">
-            <DollarSign className="w-4 h-4 text-vapor-lavender" /> All Expenses
+        <div className={`brutal-card bg-white p-5 ${categoryBreakdown.length > 0 ? "lg:col-span-2" : "lg:col-span-3"}`}>
+          <h3 className="font-heading text-xl text-black uppercase mb-5 border-b-2 border-black pb-3 flex items-center gap-2">
+            <DollarSign className="w-5 h-5 text-black" /> All Expenses
           </h3>
           {isLoading ? (
             <div className="space-y-3">
-              {[...Array(3)].map((_, i) => <div key={i} className="h-12 bg-white/5 rounded-lg animate-pulse" />)}
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="h-12 brutal-card bg-white animate-pulse" />
+              ))}
             </div>
           ) : expenses.length === 0 ? (
             <div className="text-center py-12">
-              <DollarSign className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-              <p className="text-slate-400">No expenses yet. Add your first one!</p>
+              <div className="w-14 h-14 bg-oatly-yellow border-3 border-black shadow-[4px_4px_0px_#000] flex items-center justify-center mx-auto mb-4">
+                <DollarSign className="w-7 h-7 text-black" />
+              </div>
+              <p className="font-body font-bold text-black/60">No expenses yet. Add your first one!</p>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-1">
               {expenses.map((expense) => (
-                <div key={expense._id} className="flex items-center justify-between p-3 rounded-lg bg-white/3 hover:bg-white/6 transition-colors group">
+                <div key={expense._id} className="flex items-center justify-between p-3.5 border-2 border-black bg-white hover:bg-oatly-bg/25 transition-all shadow-[2px_2px_0px_#000] mb-3">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-2 h-8 rounded-full flex-shrink-0"
-                      style={{ background: CATEGORY_COLORS[expense.category] || "#94a3b8" }}
+                      className="w-3.5 h-3.5 border-2 border-black shadow-[1.5px_1.5px_0px_#000] flex-shrink-0"
+                      style={{ backgroundColor: CATEGORY_COLORS[expense.category] || "#1E1E1E" }}
                     />
                     <div>
-                      <div className="text-sm font-medium text-slate-200">{expense.description}</div>
-                      <div className="text-xs text-slate-500">{expense.category}</div>
+                      <div className="text-sm font-heading uppercase text-black leading-none mb-1">{expense.description}</div>
+                      <div className="text-xs font-body font-bold text-black/50">{expense.category}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-heading font-semibold text-white">{formatCurrency(expense.amount)}</span>
-                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => setEditExpense(expense)} className="p-1 text-slate-400 hover:text-vapor-lavender"><Edit3 className="w-3.5 h-3.5" /></button>
-                      <button onClick={() => deleteMutation.mutate(expense._id)} className="p-1 text-slate-400 hover:text-red-400"><Trash2 className="w-3.5 h-3.5" /></button>
+                    <span className="font-heading text-lg text-black">{formatCurrency(expense.amount)}</span>
+                    <div className="flex gap-1.5 ml-2">
+                      <button
+                        onClick={() => setEditExpense(expense)}
+                        className="p-1.5 border-2 border-black bg-white hover:bg-oatly-blue transition-colors shadow-[1.5px_1.5px_0px_#000]"
+                        title="Edit"
+                      >
+                        <Edit3 className="w-3.5 h-3.5 text-black" />
+                      </button>
+                      <button
+                        onClick={() => deleteMutation.mutate(expense._id)}
+                        className="p-1.5 border-2 border-black bg-white hover:bg-[#FF6B6B] transition-colors shadow-[1.5px_1.5px_0px_#000]"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-3.5 h-3.5 text-black" />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -287,7 +322,13 @@ export default function Budget() {
       </div>
 
       {showModal && <ExpenseModal onClose={() => setShowModal(false)} onSave={(d) => createMutation.mutate(d)} />}
-      {editExpense && <ExpenseModal expense={editExpense} onClose={() => setEditExpense(null)} onSave={(d) => updateMutation.mutate({ id: editExpense._id, data: d })} />}
+      {editExpense && (
+        <ExpenseModal
+          expense={editExpense}
+          onClose={() => setEditExpense(null)}
+          onSave={(d) => updateMutation.mutate({ id: editExpense._id, data: d })}
+        />
+      )}
     </div>
   );
 }

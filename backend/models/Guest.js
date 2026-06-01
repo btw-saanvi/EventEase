@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const guestSchema = new mongoose.Schema(
   {
-    eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event", required: true },
+    eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event", required: false, default: null },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     name: { type: String, required: true },
     email: { type: String, default: "" },

@@ -8,13 +8,13 @@ export default {
     extend: {
       colors: {
         oatly: {
-          bg: "#F9F5F0", // Creamy off-white
-          text: "#1E1E1E", // Soft black
-          pink: "#FFB0C2", // Vibrant pastel pink
-          blue: "#A7D7E8", // Light sky blue
+          bg:     "#F9F5F0", // Creamy off-white
+          text:   "#1E1E1E", // Soft black
+          pink:   "#FFB0C2", // Vibrant pastel pink
+          blue:   "#A7D7E8", // Light sky blue
           yellow: "#FFD933", // Bright yellow
-          brown: "#5C4033", // Dark chocolate brown
-          green: "#A4CBA3", // Soft pastel green
+          brown:  "#5C4033", // Dark chocolate brown
+          green:  "#A4CBA3", // Soft pastel green
           border: "#1E1E1E", // Chunky borders
         },
       },

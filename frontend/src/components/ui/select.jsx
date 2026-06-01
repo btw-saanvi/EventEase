@@ -17,7 +17,7 @@ function Select({ value, onValueChange, children }) {
 
   return (
     <SelectContext.Provider value={{ value, onValueChange, open, setOpen }}>
-      <div ref={ref} className="relative">
+      <div ref={ref} className="relative w-full">
         {children}
       </div>
     </SelectContext.Provider>
@@ -31,15 +31,14 @@ function SelectTrigger({ className, children, ...props }) {
       type="button"
       onClick={() => setOpen(!open)}
       className={cn(
-        "input-vapor flex items-center justify-between cursor-pointer text-left",
-        open && "border-vapor-lavender/50 shadow-[0_0_0_3px_rgba(196,181,253,0.1)]",
+        "input-brutal flex items-center justify-between cursor-pointer text-left w-full",
         className
       )}
       {...props}
     >
       {children}
       <svg
-        className={cn("w-4 h-4 text-slate-400 transition-transform flex-shrink-0", open && "rotate-180")}
+        className={cn("w-4 h-4 text-black transition-transform flex-shrink-0", open && "rotate-180")}
         fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
       >
         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -50,7 +49,7 @@ function SelectTrigger({ className, children, ...props }) {
 
 function SelectValue({ placeholder }) {
   const { value } = React.useContext(SelectContext);
-  return <span className={value ? "text-slate-200" : "text-slate-500"}>{value || placeholder}</span>;
+  return <span className={value ? "text-black" : "text-black/50"}>{value || placeholder}</span>;
 }
 
 function SelectContent({ className, children, ...props }) {
@@ -59,7 +58,7 @@ function SelectContent({ className, children, ...props }) {
   return (
     <div
       className={cn(
-        "absolute top-full left-0 right-0 mt-1 z-50 glass rounded-xl border border-vapor-border shadow-xl overflow-auto max-h-60 animate-fade-in",
+        "absolute top-full left-0 right-0 mt-2 z-50 bg-white border-[3px] border-black shadow-[4px_4px_0px_#1E1E1E] overflow-auto max-h-60",
         className
       )}
       {...props}
@@ -75,8 +74,8 @@ function SelectItem({ value, children, className, ...props }) {
     <div
       onClick={() => { onValueChange(value); setOpen(false); }}
       className={cn(
-        "px-3 py-2 text-sm cursor-pointer transition-colors text-slate-300 hover:text-vapor-lavender hover:bg-white/5",
-        selected === value && "text-vapor-lavender bg-vapor-lavender/10",
+        "px-4 py-3 text-sm cursor-pointer font-body font-bold text-black border-b-[2px] last:border-b-0 border-black transition-colors hover:bg-oatly-yellow",
+        selected === value && "bg-oatly-pink",
         className
       )}
       {...props}

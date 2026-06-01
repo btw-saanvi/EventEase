@@ -4,7 +4,7 @@ import { cn, getInitials } from "../../lib/utils";
 const Avatar = React.forwardRef(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full", className)}
+    className={cn("relative flex h-10 w-10 shrink-0 overflow-hidden rounded-none border-[2px] border-black bg-white shadow-[2px_2px_0px_#1E1E1E]", className)}
     {...props}
   />
 ));
@@ -18,7 +18,7 @@ const AvatarImage = React.forwardRef(({ className, src, alt, ...props }, ref) =>
       ref={ref}
       src={src}
       alt={alt}
-      className={cn("aspect-square h-full w-full object-cover", className)}
+      className={cn("aspect-square h-full w-full object-cover rounded-none", className)}
       onError={() => setError(true)}
       {...props}
     />
@@ -30,7 +30,7 @@ const AvatarFallback = React.forwardRef(({ className, name, ...props }, ref) => 
   <div
     ref={ref}
     className={cn(
-      "flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-indigo-500 text-white text-sm font-semibold",
+      "flex h-full w-full items-center justify-center rounded-none bg-oatly-blue text-black text-xs font-heading uppercase",
       className
     )}
     {...props}
