@@ -1,10 +1,27 @@
 const express = require("express");
 const axios = require("axios");
+const rateLimit = require("express-rate-limit");
+const validator = require("validator");
 const SavedVendor = require("../models/SavedVendor");
 const vendorsData = require("../data/vendors");
 const { verifyToken } = require("../middleware/auth");
 
 const router = express.Router();
+
+// Rate limit the public vendor search to prevent scraping / abuse
+const vendorSearchLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: "Too many vendor search requests. Please slow down." },
+});
+
+const ALLOWED_SORT = ["rating", "price", "name"];
+const ALLOWED_CATEGORIES = [
+  "All", "Flowers", "Music & DJ", "Catering", "Salon & Makeup",
+  "Decoration", "Photography", "Venue", "Transport", "Event Vendor"
+];
 
 // Helper to query Real Places via Google Places API or fallback to OpenStreetMap/Overpass live search
 async function fetchRealVendors(query, location, category) {
@@ -68,9 +85,13 @@ async function fetchRealVendors(query, location, category) {
 }
 
 // GET /api/vendors — public catalog with real location & Google Places query support
-router.get("/", async (req, res) => {
+router.get("/", vendorSearchLimiter, async (req, res) => {
   try {
-    const { search, category, sortBy, location } = req.query;
+    // Sanitize & validate query params
+    const search   = req.query.search   ? validator.trim(String(req.query.search)).slice(0, 100)   : "";
+    const location = req.query.location ? validator.trim(String(req.query.location)).slice(0, 100) : "";
+    const category = ALLOWED_CATEGORIES.includes(req.query.category) ? req.query.category : "";
+    const sortBy   = ALLOWED_SORT.includes(req.query.sortBy) ? req.query.sortBy : "";
 
     // Fetch live real vendors if location or search term provided
     let liveVendors = await fetchRealVendors(search, location, category);

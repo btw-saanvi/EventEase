@@ -8,8 +8,14 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ message: "Access denied. No token provided." });
   }
 
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    console.error("CRITICAL SECURITY ERROR: JWT_SECRET environment variable is missing!");
+    return res.status(500).json({ message: "Server authentication misconfiguration." });
+  }
+
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "fallback-secret");
+    const decoded = jwt.verify(token, secret);
     req.user = decoded; // { id, name, email }
     next();
   } catch (err) {
