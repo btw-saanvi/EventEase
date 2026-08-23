@@ -41,11 +41,13 @@ export default function Navbar() {
         <div className="section-container">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2 group">
-              <div className="w-10 h-10 bg-oatly-yellow border-[3px] border-black flex items-center justify-center shadow-[3px_3px_0px_#000] group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[1px_1px_0px_#000] transition-all">
-                <Sparkles className="w-5 h-5 text-black" />
+            <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2.5 group">
+              <div className="w-10 h-10 bg-oatly-yellow border-[3px] border-black p-0.5 flex items-center justify-center shadow-[3px_3px_0px_#000] group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[1px_1px_0px_#000] transition-all">
+                <img src="/src/assets/mascot.png" alt="Easey Mascot" className="w-full h-full object-contain" />
               </div>
-              <span className="font-heading font-normal text-2xl text-black uppercase tracking-wide">EventEase</span>
+              <span className="font-heading text-3xl font-extrabold text-black tracking-tight uppercase">
+                EVENT<span className="bg-oatly-pink px-1 border-2 border-black ml-1 shadow-[2px_2px_0px_#000]">EASE</span>
+              </span>
             </Link>
 
             {/* Desktop nav - authenticated */}

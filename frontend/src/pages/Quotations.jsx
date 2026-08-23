@@ -40,7 +40,7 @@ export default function Quotations() {
     });
   };
 
-  const calculateAiMath = (e) => {
+  const calculateAiMath = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.budgetAmount) {
       setError("Please provide your name, email, and estimated budget amount so our AI can do the math!");
@@ -49,61 +49,30 @@ export default function Quotations() {
     setError("");
     setIsCalculating(true);
 
-    setTimeout(() => {
+    try {
+      const res = await api.post("/ai/calculate-quotation", formData);
+      setAiCalculation(res.data);
+      setSubmitted(true);
+    } catch (err) {
+      setError("AI calculations failed. Using client fallback mode.");
       const budget = parseFloat(formData.budgetAmount) || 30000;
       const guestCount = parseInt(formData.guests) || 25;
-      
-      // Calculate breakdown based on experience level
-      let cateringPct = 0.40;
-      let decorPct = 0.25;
-      let venuePct = 0.15;
-      let photoMusicPct = 0.15;
-      let bufferPct = 0.05;
-
-      if (formData.experienceLevel === "budget") {
-        cateringPct = 0.50;
-        decorPct = 0.20;
-        venuePct = 0.10;
-        photoMusicPct = 0.10;
-        bufferPct = 0.10;
-      } else if (formData.experienceLevel === "premium") {
-        cateringPct = 0.35;
-        decorPct = 0.30;
-        venuePct = 0.15;
-        photoMusicPct = 0.15;
-        bufferPct = 0.05;
-      }
-
-      const catering = Math.round(budget * cateringPct);
-      const decor = Math.round(budget * decorPct);
-      const venue = Math.round(budget * venuePct);
-      const photoMusic = Math.round(budget * photoMusicPct);
-      const buffer = Math.round(budget * bufferPct);
-      const perGuest = Math.round(budget / guestCount);
-
-      let aiTip = "Great budget range! For small & medium scale gatherings, focusing 40% on live food or DIY stations gives the best experience.";
-      if (formData.eventType === "house_party") {
-        aiTip = "House party hack: Spend most on food & sound system, save on venue cost by using home/backyard space!";
-      } else if (formData.eventType === "micro_wedding") {
-        aiTip = "Micro-wedding tip: An intimate guest list lets you splurge on candid photography and customized floral arches.";
-      }
-
       setAiCalculation({
         total: budget,
-        perGuest,
+        perGuest: Math.round(budget / guestCount),
         breakdown: [
-          { category: "Food & Drinks (Catering)", amount: catering, pct: Math.round(cateringPct * 100) },
-          { category: "Ambience & Decor", amount: decor, pct: Math.round(decorPct * 100) },
-          { category: "Venue & Sound Setup", amount: venue, pct: Math.round(venuePct * 100) },
-          { category: "Photo / Music / Extras", amount: photoMusic, pct: Math.round(photoMusicPct * 100) },
-          { category: "Emergency Buffer", amount: buffer, pct: Math.round(bufferPct * 100) },
+          { category: "Food & Drinks (Catering)", amount: Math.round(budget * 0.4), pct: 40 },
+          { category: "Ambience & Decor", amount: Math.round(budget * 0.25), pct: 25 },
+          { category: "Venue & Sound Setup", amount: Math.round(budget * 0.15), pct: 15 },
+          { category: "Photo / Music / Extras", amount: Math.round(budget * 0.15), pct: 15 },
+          { category: "Emergency Buffer", amount: Math.round(budget * 0.05), pct: 5 },
         ],
-        tip: aiTip
+        tip: "Focus your budget on live food counters & sound setup for the best guest experience!"
       });
-
-      setIsCalculating(false);
       setSubmitted(true);
-    }, 600);
+    } finally {
+      setIsCalculating(false);
+    }
   };
 
   const serviceOptions = [
@@ -128,13 +97,13 @@ export default function Quotations() {
         {submitted && aiCalculation ? (
           <div className="space-y-8 my-8">
             <div className="bg-oatly-yellow border-[4px] border-black shadow-[8px_8px_0px_#000] p-6 md:p-10 rotate-1">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center">
-                  <Bot className="w-6 h-6 text-black" />
+              <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 border-b-[3px] border-black pb-4">
+                <div className="w-20 h-20 bg-white border-[3px] border-black p-1 shadow-[3px_3px_0px_#000] flex-shrink-0">
+                  <img src="/src/assets/mascot.png" alt="Easey the Event Owl Mascot" className="w-full h-full object-contain" />
                 </div>
                 <div>
-                  <span className="font-heading text-xs uppercase bg-black text-white px-2 py-0.5">AI Quotation Engine</span>
-                  <h2 className="font-heading text-3xl uppercase text-black">Budget Math Complete!</h2>
+                  <span className="font-heading text-xs uppercase bg-black text-white px-2 py-0.5">Easey the 3D Event Owl • Smart AI Planner</span>
+                  <h2 className="font-heading text-3xl uppercase text-black">Hoot! Your Smart AI Budget Math Is Ready!</h2>
                 </div>
               </div>
 
@@ -152,11 +121,16 @@ export default function Quotations() {
                 ))}
               </div>
 
-              <div className="bg-white border-[3px] border-black p-4 mb-8">
-                <p className="font-heading text-sm uppercase text-black flex items-center gap-2 mb-1">
-                  <Sparkles className="w-4 h-4 text-black" /> AI Planner Recommendation:
-                </p>
-                <p className="font-body font-bold text-sm text-black">{aiCalculation.tip}</p>
+              <div className="bg-white border-[3px] border-black p-5 mb-8 flex items-start gap-4 shadow-[3px_3px_0px_#000]">
+                <div className="w-12 h-12 bg-oatly-pink border-[2px] border-black flex items-center justify-center flex-shrink-0">
+                  <Sparkles className="w-6 h-6 text-black" />
+                </div>
+                <div>
+                  <p className="font-heading text-sm uppercase text-black mb-1">
+                    Easey's Smart AI Advice:
+                  </p>
+                  <p className="font-body font-bold text-sm text-black leading-relaxed">{aiCalculation.tip}</p>
+                </div>
               </div>
 
               <div className="flex flex-wrap gap-4 items-center justify-between border-t-[3px] border-black pt-6">
@@ -324,24 +298,39 @@ export default function Quotations() {
 
             {/* Sidebar info */}
             <div className="space-y-6">
-              <div className="bg-oatly-yellow border-[4px] border-black shadow-[6px_6px_0px_#000] p-6 -rotate-1">
-                <h3 className="font-heading text-2xl uppercase mb-3">AI Budget Math</h3>
-                <ul className="space-y-3 font-body font-bold text-sm">
-                  <li>• Tailored breakdown for small & medium events.</li>
-                  <li>• Smart percentage splits across food, decor & music.</li>
-                  <li>• Zero guesswork — clear per-guest estimates.</li>
-                  <li>• Instant recommendations based on event scale.</li>
-                </ul>
+              {/* Easey Mascot Card */}
+              <div className="bg-oatly-yellow border-[4px] border-black p-6 shadow-[6px_6px_0px_#000] text-center">
+                <div className="w-24 h-24 bg-white border-[3px] border-black p-1 shadow-[3px_3px_0px_#000] mx-auto mb-3">
+                  <img src="/src/assets/mascot.png" alt="Easey the Event Owl Mascot" className="w-full h-full object-contain" />
+                </div>
+                <span className="font-heading text-xs uppercase bg-black text-white px-2 py-0.5 inline-block mb-2">Meet Your AI Guide</span>
+                <h3 className="font-heading text-2xl uppercase text-black mb-1">Easey the Event Owl</h3>
+                <p className="font-body font-bold text-xs text-black/80 leading-relaxed mb-3">
+                  "Hoot! I inspect your event scale, guests, & budget to craft smart budget splits with custom AI tuning!"
+                </p>
+                <div className="bg-white border-[2px] border-black p-2.5 text-[11px] font-heading uppercase text-black text-left space-y-1">
+                  <div>✓ Smart AI prompt tuning</div>
+                  <div>✓ Strict budget validation</div>
+                  <div>✓ Real-time per-guest math</div>
+                </div>
               </div>
 
-              <div className="bg-oatly-blue border-[4px] border-black shadow-[6px_6px_0px_#000] p-6 rotate-1 text-black">
-                <h3 className="font-heading text-2xl uppercase mb-3">Next Step</h3>
-                <p className="font-body font-bold text-sm mb-4">
-                  Once your quotation math is done, sign in to search & save verified vendors directly for your event!
-                </p>
-                <Link to="/signup" className="btn-brutal bg-white hover:bg-black hover:text-white w-full py-2.5 text-xs font-heading uppercase text-center block">
-                  Sign Up Now
-                </Link>
+              <div className="bg-oatly-green border-[4px] border-black p-6 shadow-[6px_6px_0px_#000]">
+                <h3 className="font-heading text-2xl uppercase mb-2">Why Use Our AI Math?</h3>
+                <ul className="space-y-3 font-body font-bold text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="w-5 h-5 text-black flex-shrink-0 mt-0.5" />
+                    <span>No hidden charges — tailored specifically for small & medium gatherings.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="w-5 h-5 text-black flex-shrink-0 mt-0.5" />
+                    <span>Calculates exact per-guest costs so you don't overspend on food or decor.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="w-5 h-5 text-black flex-shrink-0 mt-0.5" />
+                    <span>Allows immediate vendor search based on your budget tier!</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

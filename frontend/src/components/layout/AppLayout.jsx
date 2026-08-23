@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import InteractiveMascot from "../InteractiveMascot";
 
 export default function AppLayout() {
   return (
@@ -10,6 +11,7 @@ export default function AppLayout() {
         <Outlet />
       </main>
       <Footer />
+      <InteractiveMascot />
     </div>
   );
 }

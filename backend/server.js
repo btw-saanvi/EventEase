@@ -39,6 +39,7 @@ const budgetRoutes = require("./routes/budget");
 const vendorRoutes = require("./routes/vendors");
 const reviewRoutes = require("./routes/reviews");
 const profileRoutes = require("./routes/profile");
+const aiRoutes = require("./routes/ai");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/events", eventRoutes);
@@ -47,6 +48,7 @@ app.use("/api/budget", budgetRoutes);
 app.use("/api/vendors", vendorRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/ai", aiRoutes);
 
 // ─── Health Check ────────────────────────────────────────────────
 app.get("/api/health", (req, res) => {
