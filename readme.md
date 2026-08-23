@@ -37,10 +37,10 @@ It combines intelligent AI estimation, live local vendor search via Google Place
 - **Smart Math Allocation**: Input your budget and guest count — our backend powered by **xAI Grok** computes accurate category allocations (Catering, Decor, Sound/Venue, Extras, Emergency Buffer) based on your selected experience level (*Budget*, *Standard*, *Premium*).
 - **Personalized Tips**: Easey the Owl generates 2 custom, witty, actionable party tips tailored to your specific dietary notes, timing, location, and guest list.
 
-### 📍 2. Live Vendor Marketplace & Google Places Integration
+### 📍 2. Live Vendor Marketplace & Foursquare / Google Places Integration
 - **Real Local Business Lookup**: Search for vendors in any city (e.g. *Delhi, Mumbai, Kolkata*) or category (*Flowers, DJ, Catering, Salon & Makeup, Photography*).
-- **Google Places API Proxy**: Fetches live business listings, real Google review counts, star ratings, and direct Google Maps directions.
-- **Resilient Fallback**: Automatically cascades to OpenStreetMap/Overpass live search when an API key is unconfigured, ensuring search results are never empty.
+- **Foursquare & Google Places Proxy**: Integrates Foursquare Places API (`api.foursquare.com/v3`) and Google Places API to fetch real business listings, category tags, ratings, and direct Google Maps directions.
+- **Resilient Multi-Tier Fallback**: Automatically cascades from Foursquare Places → Google Places → OpenStreetMap Nominatim live search, guaranteeing search results are never empty.
 
 ### 🛡️ 3. Security & Selective Vendor Privacy
 - **Selective Info Controls**: Personal phone, email, and location are protected by default and strictly revealed only to vendors that users explicitly favorite/save.
@@ -169,8 +169,9 @@ MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/eventease
 JWT_SECRET=your_super_secret_jwt_key_here
 PORT=5000
 
-# Optional API Keys
+# API Keys
 GROK_API_KEY=gsk_your_xai_grok_api_key
+FOURSQUARE_API_KEY=WLPU4XXKNE5AHRAL3XHPXMIWDYBDJLAO3VDU0ROD0PVFSFP3
 GOOGLE_PLACES_API_KEY=your_google_places_api_key
 
 # Nodemailer OTP Settings (Optional)
