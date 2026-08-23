@@ -187,6 +187,14 @@ export default function Reviews() {
   const queryClient = useQueryClient();
   const [showModal, setShowModal] = useState(false);
   const [editReview, setEditReview] = useState(null);
+  const [selectedEventId, setSelectedEventId] = useState("all");
+
+  const { data: eventsData } = useQuery({
+    queryKey: ["events"],
+    queryFn: () => api.get("/events").then((r) => r.data),
+  });
+
+  const events = eventsData?.events || [];
 
   const { data, isLoading } = useQuery({
     queryKey: ["reviews"],
@@ -222,8 +230,8 @@ export default function Reviews() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-3 border-black pb-6">
         <div>
-          <h1 className="font-heading text-4xl text-black uppercase mb-1">My Reviews</h1>
-          <p className="font-body font-bold text-black/60">Your vendor reviews and ratings</p>
+          <h1 className="font-heading text-4xl text-black uppercase mb-1">My Vendor Reviews</h1>
+          <p className="font-body font-bold text-black/60">Reviews from your organized house parties, birthdays & family events</p>
         </div>
         <button
           id="write-review-btn"
@@ -232,6 +240,31 @@ export default function Reviews() {
         >
           <Plus className="w-5 h-5 text-black" /> Write Review
         </button>
+      </div>
+
+      {/* Event Context Banner */}
+      <div className="brutal-card bg-oatly-pink p-5">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <span className="font-heading text-xs uppercase bg-black text-white px-2 py-0.5 mb-1 inline-block">Event Feedback Hub</span>
+            <h2 className="font-heading text-xl uppercase text-black">Reviews Show Up As You Organize Events</h2>
+            <p className="font-body font-bold text-xs text-black/70 mt-1">
+              Whenever you organize a house party or family event, vendor reviews are attached to your event history so you know who to rehire!
+            </p>
+          </div>
+          {events.length > 0 && (
+            <select
+              value={selectedEventId}
+              onChange={(e) => setSelectedEventId(e.target.value)}
+              className="input-brutal bg-white cursor-pointer font-heading text-xs uppercase min-w-[180px]"
+            >
+              <option value="all">All Events ({events.length})</option>
+              {events.map((e) => (
+                <option key={e._id} value={e._id}>{e.title}</option>
+              ))}
+            </select>
+          )}
+        </div>
       </div>
 
       {/* Stats */}

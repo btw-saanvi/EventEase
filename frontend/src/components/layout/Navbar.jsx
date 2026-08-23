@@ -74,10 +74,10 @@ export default function Navbar() {
             {/* Desktop nav - public */}
             {!isAuthenticated && (
               <div className="hidden md:flex items-center gap-8 font-heading text-lg uppercase">
-                <Link to="/packages" className="text-black hover:-translate-y-1 hover:text-oatly-pink transition-transform">Packages (The Good Stuff)</Link>
-                <Link to="/vendors" className="text-black hover:-translate-y-1 hover:text-oatly-blue transition-transform">Vendors (The People)</Link>
-                <Link to="/quotations" className="text-black hover:-translate-y-1 hover:text-oatly-green transition-transform">Quotations (The Math)</Link>
-                <Link to="/login" className="btn-brutal btn-brutal-pink">Prove You're Human</Link>
+                <Link to="/packages?type=house_party" className="text-black hover:-translate-y-1 hover:text-oatly-pink transition-transform">House Parties & Family</Link>
+                <Link to="/quotations" className="text-black hover:-translate-y-1 hover:text-oatly-green transition-transform">Find Out Quotation (AI Math)</Link>
+                <Link to="/login?redirect=/vendor-marketplace" className="text-black hover:-translate-y-1 hover:text-oatly-blue transition-transform">I Want To Book</Link>
+                <Link to="/login" className="btn-brutal btn-brutal-pink">Sign In</Link>
               </div>
             )}
 

@@ -12,6 +12,8 @@ const vendors = [
   { id: "v10", name: "Luxury Limo Transfers", category: "Transport", location: "Delhi", rating: 4.3, reviews: 38, priceRange: "₹₹₹", price: 15000, description: "Premium chauffeur service and luxury vehicle rentals for weddings and events.", image: null, tags: ["Luxury", "Chauffeur", "Fleet"], available: true },
   { id: "v11", name: "Canvas & Dreams Decor", category: "Decoration", location: "Kolkata", rating: 4.6, reviews: 55, priceRange: "₹₹", price: 40000, description: "Creative and budget-friendly decor setups. Balloon art, draping, and lighting specialists.", image: null, tags: ["Creative", "Budget", "Lighting"], available: true },
   { id: "v12", name: "Melody Strings Orchestra", category: "Entertainment", location: "Bangalore", rating: 4.8, reviews: 29, priceRange: "₹₹₹₹", price: 60000, description: "Live classical and contemporary orchestra. Perfect for cocktail hours and ceremonies.", image: null, tags: ["Live Music", "Orchestra", "Classical"], available: true },
+  { id: "v13", name: "Glow & Grace Salon & Makeup", category: "Salon & Makeup", location: "Delhi", rating: 4.9, reviews: 142, priceRange: "₹₹", price: 18000, description: "Professional party makeup, hairstyling & salon draping for guests and hosts.", image: null, tags: ["Makeup", "Salon", "Hairstyling"], available: true },
+  { id: "v14", name: "Blossom & Vine Floral Studio", category: "Flowers", location: "Mumbai", rating: 4.8, reviews: 98, priceRange: "₹₹", price: 22000, description: "Fresh flower garlands, table nooks & entryway bouquet styling.", image: null, tags: ["Flowers", "Garlands", "Decor"], available: true },
 ];
 
 module.exports = vendors;

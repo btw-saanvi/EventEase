@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 // PUT /api/profile
 router.put("/", async (req, res) => {
   try {
-    const allowedFields = ["name", "phone", "bio", "avatar"];
+    const allowedFields = ["name", "phone", "location", "bio", "avatar"];
     const updates = {};
     allowedFields.forEach((f) => {
       if (req.body[f] !== undefined) updates[f] = req.body[f];

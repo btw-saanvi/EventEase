@@ -13,7 +13,7 @@ function checkDomainReal(domain) {
     const timeout = setTimeout(() => {
       console.warn(`DNS lookup for domain ${domain} timed out. Proceeding.`);
       resolve(true); // fall back to true on timeout
-    }, 3000);
+    }, 2000);
 
     dns.resolveMx(domain, (err, mxRecords) => {
       if (!err && mxRecords && mxRecords.length > 0) {
@@ -23,6 +23,10 @@ function checkDomainReal(domain) {
       dns.resolve4(domain, (err2, addresses) => {
         clearTimeout(timeout);
         if (!err2 && addresses && addresses.length > 0) {
+          return resolve(true);
+        }
+        // If DNS fails or is restricted by ISP/network, fall back to true for common domains or general safety
+        if (domain.endsWith(".com") || domain.endsWith(".org") || domain.endsWith(".net") || domain.endsWith(".in") || domain.endsWith(".edu")) {
           return resolve(true);
         }
         resolve(false);
@@ -44,12 +48,13 @@ function signToken(user) {
 
 function userPayload(user) {
   return {
-    id:     user._id,
-    name:   user.name,
-    email:  user.email,
-    avatar: user.avatar,
-    phone:  user.phone,
-    bio:    user.bio,
+    id:       user._id,
+    name:     user.name,
+    email:    user.email,
+    avatar:   user.avatar,
+    phone:    user.phone,
+    location: user.location,
+    bio:      user.bio,
   };
 }
 
@@ -141,9 +146,14 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "Invalid email format." });
     }
     const domain = emailParts[1].toLowerCase();
-    const isDomainReal = await checkDomainReal(domain);
+    let isDomainReal = true;
+    try {
+      isDomainReal = await checkDomainReal(domain);
+    } catch (e) {
+      console.warn("Domain check warning:", e.message);
+    }
     if (!isDomainReal) {
-      return res.status(400).json({ message: "That email is fake! Domain does not exist or cannot receive mail." });
+      return res.status(400).json({ message: "That email domain does not exist or cannot receive mail." });
     }
 
     const existing = await User.findOne({ email: email.toLowerCase() });
@@ -157,8 +167,8 @@ router.post("/register", async (req, res) => {
     const token = signToken(user);
     res.status(201).json({ token, user: userPayload(user) });
   } catch (err) {
-    console.error("Register error:", err.message);
-    res.status(500).json({ message: "Registration failed." });
+    console.error("Register error:", err);
+    res.status(500).json({ message: err.message || "Registration failed." });
   }
 });
 

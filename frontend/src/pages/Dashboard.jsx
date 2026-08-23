@@ -13,7 +13,7 @@ const STATUS_CONFIG = {
 
 function EventModal({ event, onClose, onSave }) {
   const [form, setForm] = useState(
-    event || { title: "", date: "", venue: "", description: "", status: "planning", expectedGuests: 0 }
+    event || { title: "", date: "", venue: "", description: "", status: "planning", type: "social", expectedGuests: 20 }
   );
 
   const handleSubmit = (e) => {
@@ -125,7 +125,10 @@ export default function Dashboard() {
       toast.success("Event created!");
       setShowModal(false);
     },
-    onError: () => toast.error("Failed to create event"),
+    onError: (err) => {
+      const msg = err.response?.data?.message || "Failed to create event";
+      toast.error(msg);
+    },
   });
 
   const updateMutation = useMutation({

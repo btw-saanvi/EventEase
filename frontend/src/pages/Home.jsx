@@ -1,41 +1,47 @@
 import HeroSection from "../components/home/HeroSection";
 import CategoryCarousel from "../components/home/CategoryCarousel";
-import { Link } from "react-router-dom";
-import { ArrowRight, Plane, Quote, Camera, Sparkles } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, Camera, Sparkles, Music, Utensils, Home as HomeIcon, Users, Lock } from "lucide-react";
+import { useAuth } from "../hooks/use-auth";
 
 const quotationCards = [
-  { title: "Wedding Quotation", subtitle: "Let's start your forever day", color: "bg-oatly-pink" },
-  { title: "Destination Quotation", subtitle: "A celebration with passport vibes", color: "bg-oatly-blue" },
-  { title: "Corporate Quotation", subtitle: "Serious planning, zero boring", color: "bg-oatly-green" },
-  { title: "Birthday Quotation", subtitle: "Cake, chaos, and perfect logistics", color: "bg-oatly-yellow" },
+  { title: "House Party Quotation", subtitle: "Cozy gatherings & epic playlist vibes", color: "bg-oatly-pink", type: "house_party" },
+  { title: "Casual Friends & Family", subtitle: "Dinner parties, BBQs & milestones", color: "bg-oatly-blue", type: "casual_family" },
+  { title: "Intimate Birthday", subtitle: "Cake, photo corner, and custom fun", color: "bg-oatly-yellow", type: "birthday" },
+  { title: "Micro-Wedding", subtitle: "Small scale, big memories", color: "bg-oatly-green", type: "micro_wedding" },
 ];
 
 const vendorTiles = [
   { name: "Photographer", icon: Camera, color: "bg-oatly-pink" },
-  { name: "Makeup Artist", icon: Sparkles, color: "bg-oatly-yellow" },
-  { name: "Event Planner", icon: Quote, color: "bg-oatly-blue" },
-  { name: "Decorator", icon: Plane, color: "bg-oatly-green" },
+  { name: "Catering & Snacks", icon: Utensils, color: "bg-oatly-yellow" },
+  { name: "DJ & Sound", icon: Music, color: "bg-oatly-blue" },
+  { name: "Decor & Lighting", icon: Sparkles, color: "bg-oatly-green" },
 ];
 
-const internationalPackages = [
-  { place: "Thailand", price: "Starts at ₹4,00,000" },
-  { place: "Mauritius", price: "Starts at ₹7,50,000" },
-  { place: "Vietnam", price: "Starts at ₹18,00,000" },
+const housePartyPlans = [
+  { title: "Weekend Terrace Party", category: "House Party", guests: "15-25 Guests", price: "Starts at ₹15,000", desc: "Ambient fairy lights, sound system rental & finger food catering." },
+  { title: "Backyard BBQ & Drinks", category: "Casual Friends", guests: "20-40 Guests", price: "Starts at ₹25,000", desc: "Live grill chef, DIY mocktail bar setup & cozy outdoor seating." },
+  { title: "Intimate Birthday Bash", category: "Casual Friends", guests: "10-30 Guests", price: "Starts at ₹18,000", desc: "Custom theme balloon backdrop, cake bar & playlist manager." },
 ];
 
-const weddingPackages = [
-  { city: "Lucknow", price: "Starts at ₹5,00,000" },
-  { city: "Jaipur", price: "Starts at ₹10,00,000" },
-  { city: "Varanasi", price: "Starts at ₹5,50,000" },
+const familyPlans = [
+  { title: "Family Anniversary Dinner", category: "Family Plan", guests: "30-50 Guests", price: "Starts at ₹35,000", desc: "Private dining room setup, floral centerpiece & candid photo team." },
+  { title: "Micro-Wedding Celebration", category: "Small Event", guests: "40-80 Guests", price: "Starts at ₹85,000", desc: "Minimalist floral mandap, traditional catering & acoustic music." },
+  { title: "Baby Shower / Naming Ceremony", category: "Family Plan", guests: "25-60 Guests", price: "Starts at ₹28,000", desc: "Pastel decor theme, welcome drinks & photo booth nook." },
 ];
-
-const toSeed = (value) =>
-  String(value)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
 
 export default function Home() {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleVendorClick = () => {
+    if (isAuthenticated) {
+      navigate("/vendor-marketplace");
+    } else {
+      navigate("/login?redirect=/vendor-marketplace");
+    }
+  };
+
   return (
     <main className="bg-oatly-bg min-h-screen">
       <HeroSection />
@@ -43,28 +49,29 @@ export default function Home() {
       {/* Marquee Separator */}
       <div className="marquee-container">
         <div className="animate-marquee">
-          <span>NO BORING EVENTS ALLOWED • WE DO THE MATH FOR YOU • VENDORS THAT ACTUALLY SHOW UP • NO BORING EVENTS ALLOWED • WE DO THE MATH FOR YOU • VENDORS THAT ACTUALLY SHOW UP • NO BORING EVENTS ALLOWED • WE DO THE MATH FOR YOU • VENDORS THAT ACTUALLY SHOW UP • NO BORING EVENTS ALLOWED • WE DO THE MATH FOR YOU • VENDORS THAT ACTUALLY SHOW UP • </span>
+          <span>SMALL & MEDIUM SCALE EVENTS • HOUSE PARTIES & FAMILY GATHERINGS • AI BUDGET MATH • VERIFIED VENDORS • SMALL & MEDIUM SCALE EVENTS • HOUSE PARTIES & FAMILY GATHERINGS • AI BUDGET MATH • VERIFIED VENDORS • </span>
         </div>
       </div>
 
       <CategoryCarousel />
 
+      {/* Find Out Quotation Section */}
       <section className="py-20 bg-oatly-bg border-b-[4px] border-black">
         <div className="section-container">
           <div className="text-center mb-12">
             <h2 className="font-heading text-5xl md:text-7xl text-black uppercase mb-4">
-              Fill Your Quotation
+              Find Out Quotation
             </h2>
-            <p className="font-body font-bold text-lg text-black">
-              Tell us what you need. We will find the right team and pricing.
+            <p className="font-body font-bold text-lg md:text-xl text-black max-w-2xl mx-auto">
+              We help you math according to your budget and the exact scale level you want using AI!
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {quotationCards.map((card, i) => (
               <Link
                 key={card.title}
-                to="/quotations"
+                to={`/quotations?type=${card.type}`}
                 className={`${card.color} border-[4px] border-black shadow-[6px_6px_0px_#000] p-6 ${
                   i % 2 === 0 ? "-rotate-1" : "rotate-1"
                 } hover:rotate-0 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_#000] transition-all`}
@@ -72,7 +79,7 @@ export default function Home() {
                 <p className="font-heading text-2xl uppercase text-black mb-2">{card.title}</p>
                 <p className="font-body font-bold text-black mb-4">{card.subtitle}</p>
                 <span className="font-heading uppercase flex items-center gap-2">
-                  Get estimate <ArrowRight className="w-4 h-4" />
+                  Calculate AI Math <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
             ))}
@@ -80,105 +87,110 @@ export default function Home() {
         </div>
       </section>
 
+      {/* I Want To Book Section */}
       <section className="py-20 bg-white border-b-[4px] border-black">
         <div className="section-container">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h2 className="font-heading text-5xl md:text-7xl text-black uppercase mb-4">
               I Want To Book
             </h2>
-            <p className="font-body font-bold text-lg text-black">
-              Build your dream team one vendor at a time.
+            <p className="font-body font-bold text-lg text-black max-w-xl mx-auto">
+              Sign in to search and connect with trusted local vendors for your house party or family event.
             </p>
           </div>
 
+          {!isAuthenticated && (
+            <div className="max-w-xl mx-auto mb-10 bg-oatly-yellow border-[3px] border-black p-4 text-center shadow-[4px_4px_0px_#000] flex items-center justify-center gap-3">
+              <Lock className="w-5 h-5 text-black flex-shrink-0" />
+              <span className="font-body font-bold text-sm text-black">
+                Sign in is required to search and message vendors.
+              </span>
+              <Link to="/login" className="btn-brutal bg-white hover:bg-black hover:text-white px-4 py-1.5 text-xs font-heading">
+                Sign In
+              </Link>
+            </div>
+          )}
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
             {vendorTiles.map((tile) => (
-              <Link
+              <button
                 key={tile.name}
-                to="/vendor-marketplace"
-                className={`${tile.color} border-[4px] border-black shadow-[5px_5px_0px_#000] p-5 text-center hover:-translate-y-1 transition-transform`}
+                onClick={handleVendorClick}
+                className={`${tile.color} border-[4px] border-black shadow-[5px_5px_0px_#000] p-5 text-center hover:-translate-y-1 transition-transform w-full text-left`}
               >
                 <div className="w-14 h-14 mx-auto mb-3 bg-white border-[3px] border-black flex items-center justify-center">
                   <tile.icon className="w-6 h-6 text-black" />
                 </div>
-                <p className="font-heading text-xl uppercase text-black leading-tight">{tile.name}</p>
-              </Link>
+                <p className="font-heading text-xl uppercase text-black leading-tight text-center">{tile.name}</p>
+                <p className="font-body font-bold text-xs text-center mt-2 uppercase text-black/70">
+                  {isAuthenticated ? "Search Vendors" : "Sign In to Search"}
+                </p>
+              </button>
             ))}
           </div>
         </div>
       </section>
 
+      {/* House Parties Plans */}
       <section className="py-20 bg-oatly-bg border-b-[4px] border-black">
         <div className="section-container">
-          <div className="brutal-card bg-white p-6 md:p-8 grid md:grid-cols-2 gap-8 items-center">
-            <img
-              src="https://picsum.photos/seed/plan-perfect-celebration/1200/800"
-              alt="Celebration setup"
-              className="w-full h-72 md:h-80 object-cover border-[3px] border-black"
-            />
-            <div>
-              <h2 className="font-heading text-4xl md:text-6xl uppercase text-black mb-4">
-                Plan Your Perfect Celebration
-              </h2>
-              <p className="font-body font-bold text-black text-lg mb-6">
-                Share your event details and get a personalized quotation with top venues and vendors.
-              </p>
-              <Link to="/quotations" className="btn-brutal btn-brutal-pink">
-                Get My Quotation <ArrowRight className="w-5 h-5" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 bg-white border-b-[4px] border-black">
-        <div className="section-container">
           <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
             <div>
-              <h2 className="font-heading text-4xl md:text-6xl text-black uppercase">International Packages</h2>
-              <p className="font-body font-bold text-black mt-2">Destination-ready plans with full vendor coordination.</p>
+              <h2 className="font-heading text-4xl md:text-6xl text-black uppercase flex items-center gap-3">
+                <HomeIcon className="w-10 h-10 text-black" /> House Parties Plans
+              </h2>
+              <p className="font-body font-bold text-black mt-2">Fun, low-stress setups for cozy indoor and terrace parties.</p>
             </div>
-            <Link to="/packages" className="btn-brutal btn-brutal-blue">View All</Link>
+            <Link to="/packages?type=house_party" className="btn-brutal btn-brutal-pink">View House Plans</Link>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {internationalPackages.map((pkg, idx) => (
-              <Link key={pkg.place} to="/packages?type=international" className="brutal-card p-4">
-                <img
-                  src={`https://picsum.photos/seed/international-${toSeed(pkg.place)}-${idx + 1}/640/400`}
-                  alt={`${pkg.place} destination package`}
-                  className="w-full h-44 object-cover border-[3px] border-black mb-4"
-                />
-                <p className="font-body font-bold text-sm uppercase text-black">International</p>
-                <h3 className="font-heading text-3xl uppercase text-black mb-2">{pkg.place}</h3>
-                <p className="font-body font-bold text-black">{pkg.price}</p>
+            {housePartyPlans.map((pkg, idx) => (
+              <Link key={pkg.title} to={`/quotations?type=house_party`} className="brutal-card p-5 bg-white flex flex-col justify-between">
+                <div>
+                  <span className="inline-block bg-oatly-pink border-[2px] border-black px-2 py-0.5 font-heading text-xs uppercase mb-3 shadow-[2px_2px_0px_#000]">
+                    {pkg.guests}
+                  </span>
+                  <h3 className="font-heading text-2xl uppercase text-black mb-2">{pkg.title}</h3>
+                  <p className="font-body font-semibold text-sm text-gray-700 mb-4">{pkg.desc}</p>
+                </div>
+                <div className="border-t-[2px] border-black pt-3 flex items-center justify-between">
+                  <p className="font-heading text-lg text-black">{pkg.price}</p>
+                  <span className="font-heading text-xs uppercase flex items-center gap-1 text-black">Math Budget <ArrowRight className="w-3.5 h-3.5" /></span>
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-oatly-bg">
+      {/* Casual Friends & Family Plans */}
+      <section className="py-20 bg-white">
         <div className="section-container">
           <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
             <div>
-              <h2 className="font-heading text-4xl md:text-6xl text-black uppercase">Wedding Packages</h2>
-              <p className="font-body font-bold text-black mt-2">Local favorites with budgets that make sense.</p>
+              <h2 className="font-heading text-4xl md:text-6xl text-black uppercase flex items-center gap-3">
+                <Users className="w-10 h-10 text-black" /> Casual Friends & Family Plans
+              </h2>
+              <p className="font-body font-bold text-black mt-2">Smart, medium-scale celebration plans for all your milestones.</p>
             </div>
-            <Link to="/packages?type=wedding" className="btn-brutal">Explore Wedding</Link>
+            <Link to="/packages?type=casual_family" className="btn-brutal btn-brutal-blue">Explore Family Plans</Link>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {weddingPackages.map((pkg, idx) => (
-              <Link key={pkg.city} to="/packages?type=wedding" className="brutal-card p-4 bg-white">
-                <img
-                  src={`https://picsum.photos/seed/wedding-${toSeed(pkg.city)}-${idx + 11}/640/400`}
-                  alt={`${pkg.city} wedding package`}
-                  className="w-full h-44 object-cover border-[3px] border-black mb-4"
-                />
-                <p className="font-body font-bold text-sm uppercase text-black">Wedding Package</p>
-                <h3 className="font-heading text-3xl uppercase text-black mb-2">{pkg.city}</h3>
-                <p className="font-body font-bold text-black">{pkg.price}</p>
+            {familyPlans.map((pkg, idx) => (
+              <Link key={pkg.title} to={`/quotations?type=casual_family`} className="brutal-card p-5 bg-oatly-bg flex flex-col justify-between">
+                <div>
+                  <span className="inline-block bg-oatly-blue border-[2px] border-black px-2 py-0.5 font-heading text-xs uppercase mb-3 shadow-[2px_2px_0px_#000]">
+                    {pkg.guests}
+                  </span>
+                  <h3 className="font-heading text-2xl uppercase text-black mb-2">{pkg.title}</h3>
+                  <p className="font-body font-semibold text-sm text-gray-700 mb-4">{pkg.desc}</p>
+                </div>
+                <div className="border-t-[2px] border-black pt-3 flex items-center justify-between">
+                  <p className="font-heading text-lg text-black">{pkg.price}</p>
+                  <span className="font-heading text-xs uppercase flex items-center gap-1 text-black">Math Budget <ArrowRight className="w-3.5 h-3.5" /></span>
+                </div>
               </Link>
             ))}
           </div>

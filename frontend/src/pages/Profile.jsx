@@ -80,9 +80,18 @@ export default function Profile() {
 
       {/* Profile Form */}
       <form onSubmit={handleSubmit} className="brutal-card bg-white p-6 space-y-5">
-        <h2 className="font-heading text-xl text-black uppercase flex items-center gap-2 border-b-2 border-black pb-3">
-          <User className="w-5 h-5 text-black" /> Personal Information
-        </h2>
+        <div className="flex items-center justify-between border-b-2 border-black pb-3">
+          <h2 className="font-heading text-xl text-black uppercase flex items-center gap-2">
+            <User className="w-5 h-5 text-black" /> Personal Information
+          </h2>
+          <span className="text-[10px] font-heading uppercase bg-oatly-yellow border border-black px-2 py-0.5 shadow-[1px_1px_0px_#000]">
+            🔒 Shared only with Favorited Vendors
+          </span>
+        </div>
+
+        <div className="bg-oatly-blue/20 border-2 border-black p-3 text-xs font-body font-bold text-black/80">
+          🛡️ Privacy Protection: Your phone, email, and location are kept private. They are only made visible to vendors that you explicitly save/favorite in your marketplace list!
+        </div>
 
         <div>
           <label className="block text-sm font-heading uppercase text-black mb-1.5">Full Name</label>
@@ -171,23 +180,36 @@ export default function Profile() {
         </div>
       </form>
 
+      {/* User Written Reviews Overview */}
+      <div className="brutal-card bg-white p-6 mt-6">
+        <h2 className="font-heading text-lg text-black uppercase flex items-center gap-2 mb-3 border-b-2 border-black/10 pb-3">
+          ⭐ My Written Reviews for Vendors
+        </h2>
+        <p className="font-body font-bold text-xs text-black/70 mb-4">
+          All reviews you have published for vendors are linked to your profile and displayed to vendors you interact with.
+        </p>
+        <a href="/reviews" className="btn-brutal btn-brutal-yellow text-xs px-4 py-2 inline-block">
+          View & Manage Written Reviews →
+        </a>
+      </div>
+
       {/* Google Account Section */}
       <div className="brutal-card bg-white p-6 mt-6">
         <h2 className="font-heading text-lg text-black uppercase flex items-center gap-2 mb-4 border-b-2 border-black/10 pb-3">
-          <Lock className="w-5 h-5 text-black" /> Account Security
+          <Lock className="w-5 h-5 text-black" /> Account Security & Vendor Visibility
         </h2>
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm font-heading uppercase text-black">Google Authentication</div>
-            <div className="text-xs font-body font-bold text-black/50 mt-0.5">Your account is secured with Google OAuth</div>
+            <div className="text-sm font-heading uppercase text-black flex items-center gap-2">
+              <span>Vendor Contact Sharing: Only Favorited Vendors</span>
+            </div>
+            <div className="text-xs font-body font-bold text-black/50 mt-0.5">Your personal contact data is strictly hidden from un-saved vendors</div>
           </div>
           <a
-            href="https://myaccount.google.com/security"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/vendors"
             className="btn-brutal text-xs px-4 py-2"
           >
-            Manage →
+            My Favorited Vendors →
           </a>
         </div>
       </div>

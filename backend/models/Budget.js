@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const expenseSchema = new mongoose.Schema({
+  eventId: { type: String, default: "" },
   category: {
     type: String,
     enum: ["Venue", "Catering", "Decoration", "Photography", "Music & DJ", "Flowers", "Transport", "Attire", "Invitations", "Gifts", "Miscellaneous"],

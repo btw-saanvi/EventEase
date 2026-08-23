@@ -133,6 +133,8 @@ export default function Signup() {
             </div>
             <p className="text-sm font-body font-semibold text-oatly-text">
               2,000+ events planned this month
+              <br/>
+              In my dreamland!
             </p>
           </div>
         </div>
