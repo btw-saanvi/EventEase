@@ -206,6 +206,16 @@ Visit **`http://localhost:5173`** in your browser! 🎉
 
 ---
 
+## 🧠 Technical Decisions & Challenges
+
+EventEase involved several implementation and deployment challenges, including stateless authentication and protected API access without role bloat, multi-tier vendor discovery and booking data modeling, frontend-backend schema reconciliation, and monorepo Vercel serverless deployment configuration.
+
+For the detailed engineering decisions, implementation reasoning, alternatives considered, and challenges encountered, see:
+
+[Technical Decisions & Challenges](./TECHNICAL_DECISIONS.md)
+
+---
+
 ## ☁️ Deployment Guide (Vercel)
 
 1. Import this repository into **[Vercel](https://vercel.com)**.
