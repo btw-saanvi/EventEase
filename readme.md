@@ -59,10 +59,9 @@ It combines intelligent AI estimation, live local vendor search via Google Place
 
 ## 4. Screenshots / Demo
 
-*Meet Easey the Owl — Your 3D Smart Event Companion!*
-![Easey the Owl Mascot](./frontend/src/assets/mascot.png)
+*Pick your poison — Smart Event Ideas!*
+![Ideas](./frontend/src/assets/ideas.png)
 
-*(Note: Additional app screenshots were not found in the repository).*
 
 ---
 
