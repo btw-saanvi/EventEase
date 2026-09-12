@@ -60,7 +60,7 @@ It combines intelligent AI estimation, live local vendor search via Google Place
 ## 4. Screenshots / Demo
 
 *Pick your poison — Smart Event Ideas!*
-![Ideas](./frontend/src/assets/ideas.png)
+![Ideas](./frontend/src/assets/image.png)
 
 
 ---
