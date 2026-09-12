@@ -232,6 +232,50 @@ For the detailed engineering decisions, implementation reasoning, alternatives c
 
 ---
 
+## 🧪 Testing & CI/CD Evidence
+
+### Automated Test Suite (Vitest + React Testing Library)
+
+Three unit/integration tests run on every push via GitHub Actions:
+
+| Test File | What It Validates |
+|---|---|
+| `__tests__/Login.test.jsx` | Renders the Login form and verifies client-side validation — submitting empty fields shows **"Email is required"** and **"Password is required"** error messages. |
+| `__tests__/ProtectedRoute.test.jsx` | Confirms that unauthenticated users hitting a protected route are redirected to `/login` and never see the guarded content. |
+| `__tests__/Budget.test.jsx` | Pre-populates the React Query cache with two expense fixtures (Venue ₹1,000 + Catering ₹2,000) and asserts that the Budget page renders the correct **₹3,000** total-spent figure. |
+
+Run them locally with:
+```bash
+cd frontend
+npm run test -- --run
+```
+
+Expected output:
+```
+✓ __tests__/Budget.test.jsx         (1 test)
+✓ __tests__/ProtectedRoute.test.jsx (1 test)
+✓ __tests__/Login.test.jsx          (1 test)
+
+Test Files  3 passed (3)
+     Tests  3 passed (3)
+```
+
+### CI/CD Pipeline (GitHub Actions)
+
+The pipeline defined in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) runs on every push and pull-request to any branch:
+
+```
+Install frontend deps  →  Run tests (--run)  →  Build frontend
+```
+
+**Fixes applied to make CI green:**
+- `cache-dependency-path` changed from `frontend/package-lock.json` → `**/package-lock.json` (glob pattern required by `actions/setup-node@v4` for sub-directory lock files).
+- `npm run test` changed to `npm run test -- --run` so Vitest exits after the test run instead of staying in watch mode and hanging the job.
+
+[![CI](https://github.com/btw-saanvi/EventEase/actions/workflows/ci.yml/badge.svg)](https://github.com/btw-saanvi/EventEase/actions/workflows/ci.yml)
+
+---
+
 ## 📄 License & Attribution
 
 - **Author**: Built with ❤️ by **Saanvi Garg**.
