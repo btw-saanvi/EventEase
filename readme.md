@@ -12,18 +12,12 @@
 [![Express](https://img.shields.io/badge/Express-5.x-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://mongodb.com)
 [![xAI Grok](https://img.shields.io/badge/AI-xAI%20Grok-FF6B6B?style=flat-square&logo=x&logoColor=white)](https://x.ai)
-[![Security Hardened](https://img.shields.io/badge/Security-Hardened%20%E2%9C%93-00B4D8?style=flat-square&logo=shieldsdotio&logoColor=white)](#-security--privacy-shield)
-
----
-
-### 🦉 Meet **Easey the Owl** — Your 3D Smart Event Companion!
-*From roaming your screen to calculating budget math with Grok AI, Easey makes party planning fun, playful, and budget-smart.*
 
 </div>
 
 ---
 
-## 🌟 Overview
+## 1. Overview
 
 **EventEase** is a full-stack, neo-brutalist web application designed to take the stress out of event planning. While traditional platforms focus on oversized $50k+ destination weddings, EventEase specializes in **small-to-medium scale celebrations** — house parties, micro-weddings, casual family BBQs, birthday bashes, and baby showers.
 
@@ -31,59 +25,48 @@ It combines intelligent AI estimation, live local vendor search via Google Place
 
 ---
 
-## ✨ Key Features & Highlights
+## 2. Links
 
-### 🤖 1. Grok AI Quotation & Planning Engine
+- **Live Demo**: [https://event-ease-ashen.vercel.app/](https://event-ease-ashen.vercel.app/)
+- **GitHub Repository**: [https://github.com/btw-saanvi/EventEase](https://github.com/btw-saanvi/EventEase)
+
+---
+
+## 3. Features
+
+### 🤖 Grok AI Quotation & Planning Engine
 - **Smart Math Allocation**: Input your budget and guest count — our backend powered by **xAI Grok** computes accurate category allocations (Catering, Decor, Sound/Venue, Extras, Emergency Buffer) based on your selected experience level (*Budget*, *Standard*, *Premium*).
 - **Personalized Tips**: Easey the Owl generates 2 custom, witty, actionable party tips tailored to your specific dietary notes, timing, location, and guest list.
 
-### 📍 2. Live Vendor Marketplace & Foursquare / Google Places Integration
+### 📍 Live Vendor Marketplace & Foursquare / Google Places Integration
 - **Real Local Business Lookup**: Search for vendors in any city (e.g. *Delhi, Mumbai, Kolkata*) or category (*Flowers, DJ, Catering, Salon & Makeup, Photography*).
 - **Foursquare & Google Places Proxy**: Integrates Foursquare Places API (`api.foursquare.com/v3`) and Google Places API to fetch real business listings, category tags, ratings, and direct Google Maps directions.
 - **Resilient Multi-Tier Fallback**: Automatically cascades from Foursquare Places → Google Places → OpenStreetMap Nominatim live search, guaranteeing search results are never empty.
 
-### 🛡️ 3. Security & Selective Vendor Privacy
+### 🛡️ Security & Selective Vendor Privacy
 - **Selective Info Controls**: Personal phone, email, and location are protected by default and strictly revealed only to vendors that users explicitly favorite/save.
 - **Security Hardened**: Protected against CORS exploits, mass assignment (IDOR), XSS injection, account enumeration, timing attacks, and API credit exhaustion.
 
-### 📊 4. Interactive Event Command Center
+### 📊 Interactive Event Command Center
 - **Budget Manager**: Track paid vs. pending vendor expenses with interactive category breakdowns.
 - **Guest List Manager**: Filter RSVPs (Confirmed, Pending, Declined), track dietary restrictions, plus-ones, and table assignments.
 - **Reviews & Feedback**: Submit and manage authentic vendor ratings tied to your organized events.
 
-### 🎨 5. Bold Neo-Brutalist Design System
+### 🎨 Bold Neo-Brutalist Design System
 - High-contrast typography, crisp offset shadows (`box-shadow: 4px 4px 0 #1E1E1E`), glassmorphism cards, and an interactive 3D mascot.
 
 ---
 
-## 🏗️ Architecture Overview
+## 4. Screenshots / Demo
 
-```mermaid
-graph TD
-    Client[React 19 + Vite Frontend SPA] -->|HTTPS / REST API| Server[Express 5 Node.js API]
-    
-    subgraph Security Layer
-        Server --> Helmet[Helmet HTTP Headers]
-        Server --> RateLimit[Express Rate Limiters]
-        Server --> Cors[Strict CORS Shield]
-        Server --> Validator[Input Sanitization & Whitelisting]
-    end
+*Meet Easey the Owl — Your 3D Smart Event Companion!*
+![Easey the Owl Mascot](./frontend/src/assets/mascot.png)
 
-    subgraph External Services
-        Server -->|xAI REST API| Grok[xAI Grok Beta LLM]
-        Server -->|Places API| Google[Google Places API]
-        Server -->|Reverse Geocoding| OSM[OpenStreetMap / Nominatim]
-        Server -->|SMTP Transport| Mail[Nodemailer / Gmail OTP]
-    end
-
-    subgraph Persistence
-        Server -->|Mongoose ODM| Mongo[(MongoDB Atlas)]
-    end
-```
+*(Note: Additional app screenshots were not found in the repository).*
 
 ---
 
-## 🛠️ Tech Stack
+## 5. Tech Stack
 
 ### **Frontend**
 - **Framework**: React 19 + Vite 8
@@ -103,49 +86,13 @@ graph TD
 
 ---
 
-## 🛡️ Security & Privacy Shield
+## 6. Live Demo
 
-| Security Feature | Implementation Detail |
-|---|---|
-| **Rate Limiting** | Strict IP/User rate limits on Auth (10 req/15min), Forgot Password (5 req/hr), and AI Endpoints (20 req/hr). |
-| **Mass Assignment Protection** | Strict whitelist filtering (`pickAllowed()`) on all `POST`/`PUT` endpoints to prevent `userId` override or prototype pollution. |
-| **Authentication & Tokens** | JWT auth with mandatory `JWT_SECRET` verification. Password hashing using `bcryptjs` with 12 rounds. |
-| **Timing Attack Mitigation** | Constant-time string comparison (`crypto.timingSafeEqual`) for 6-digit OTP verification. |
-| **Account Enumeration Prevention** | Generic error messages for authentication failures + dummy bcrypt comparison cycles. |
-| **XSS & Injection Defense** | Input sanitization using `validator.trim()` and strict URL scheme checks (`http`/`https` only for avatars). |
-| **Selective Privacy** | User contact details are hidden until the user explicitly saves/favorites a vendor. |
+Experience the live application here: **[EventEase Live Demo](https://event-ease-ashen.vercel.app/)**
 
 ---
 
-## 🔌 API Endpoint Documentation
-
-### 🔑 Authentication (`/api/auth`)
-- `POST /api/auth/register` — Create a new host account (rate limited).
-- `POST /api/auth/login` — Authenticate and receive a JWT.
-- `POST /api/auth/forgot-password` — Request a 15-minute 6-digit OTP.
-- `POST /api/auth/verify-otp` — Verify password reset OTP.
-- `POST /api/auth/reset-password` — Set a new password using verified OTP.
-- `GET /api/auth/me` — Fetch current user profile details.
-
-### 🤖 AI Service (`/api/ai`)
-- `POST /api/ai/calculate-quotation` — *(Auth Required)* Compute AI budget breakdown & Grok planning tips.
-
-### 🛍️ Vendor Marketplace (`/api/vendors`)
-- `GET /api/vendors` — Public catalog search with live Google Places API & OSM location fallback.
-- `GET /api/vendors/saved` — *(Auth Required)* Get user's saved favorite vendors.
-- `POST /api/vendors/save` — *(Auth Required)* Save a vendor to favorites.
-- `DELETE /api/vendors/save/:vendorId` — *(Auth Required)* Remove a vendor from saved.
-
-### 📅 Events & Management
-- `GET/POST /api/events` — Manage user events.
-- `GET/PUT/DELETE /api/events/:id` — Operation scoped to owner's events.
-- `GET/POST/PUT/DELETE /api/budget` — Manage total budget & expense items.
-- `GET/POST/PUT/DELETE /api/guests` — Manage guest list and RSVPs.
-- `GET/POST/PUT/DELETE /api/reviews` — Manage vendor reviews.
-
----
-
-## 🚀 Local Setup & Installation
+## 7. Setup Instructions
 
 ### Prerequisites
 - **Node.js**: v20.x or v22.x
@@ -206,73 +153,13 @@ Visit **`http://localhost:5173`** in your browser! 🎉
 
 ---
 
-## 🧠 Technical Decisions & Challenges
+## 8. Technical Decisions
 
 EventEase involved several implementation and deployment challenges, including stateless authentication and protected API access without role bloat, multi-tier vendor discovery and booking data modeling, frontend-backend schema reconciliation, and monorepo Vercel serverless deployment configuration.
 
 For the detailed engineering decisions, implementation reasoning, alternatives considered, and challenges encountered, see:
 
 [Technical Decisions & Challenges](./TECHNICAL_DECISIONS.md)
-
----
-
-## ☁️ Deployment Guide (Vercel)
-
-1. Import this repository into **[Vercel](https://vercel.com)**.
-2. Keep the **Root Directory** as `./` (repo root).
-3. Set the following environment variables in Vercel:
-
-| Environment Variable | Target | Description |
-|---|---|---|
-| `MONGODB_URI` | Backend | MongoDB Atlas Connection String |
-| `JWT_SECRET` | Backend | Secret key for JWT signing |
-| `GROK_API_KEY` | Backend | xAI Grok API Key for AI features |
-| `GOOGLE_PLACES_API_KEY` | Backend | Google Places API Key |
-| `VITE_API_URL` | Frontend | Set to `/api` for Vercel serverless proxy |
-
----
-
-## 🧪 Testing & CI/CD Evidence
-
-### Automated Test Suite (Vitest + React Testing Library)
-
-Three unit/integration tests run on every push via GitHub Actions:
-
-| Test File | What It Validates |
-|---|---|
-| `__tests__/Login.test.jsx` | Renders the Login form and verifies client-side validation — submitting empty fields shows **"Email is required"** and **"Password is required"** error messages. |
-| `__tests__/ProtectedRoute.test.jsx` | Confirms that unauthenticated users hitting a protected route are redirected to `/login` and never see the guarded content. |
-| `__tests__/Budget.test.jsx` | Pre-populates the React Query cache with two expense fixtures (Venue ₹1,000 + Catering ₹2,000) and asserts that the Budget page renders the correct **₹3,000** total-spent figure. |
-
-Run them locally with:
-```bash
-cd frontend
-npm run test -- --run
-```
-
-Expected output:
-```
-✓ __tests__/Budget.test.jsx         (1 test)
-✓ __tests__/ProtectedRoute.test.jsx (1 test)
-✓ __tests__/Login.test.jsx          (1 test)
-
-Test Files  3 passed (3)
-     Tests  3 passed (3)
-```
-
-### CI/CD Pipeline (GitHub Actions)
-
-The pipeline defined in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) runs on every push and pull-request to any branch:
-
-```
-Install frontend deps  →  Run tests (--run)  →  Build frontend
-```
-
-**Fixes applied to make CI green:**
-- `cache-dependency-path` changed from `frontend/package-lock.json` → `**/package-lock.json` (glob pattern required by `actions/setup-node@v4` for sub-directory lock files).
-- `npm run test` changed to `npm run test -- --run` so Vitest exits after the test run instead of staying in watch mode and hanging the job.
-
-[![CI](https://github.com/btw-saanvi/EventEase/actions/workflows/ci.yml/badge.svg)](https://github.com/btw-saanvi/EventEase/actions/workflows/ci.yml)
 
 ---
 
