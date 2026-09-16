@@ -42,7 +42,10 @@ const otpLimiter = rateLimit({
 function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
-    throw new Error("CRITICAL: JWT_SECRET environment variable is not set.");
+    if (process.env.NODE_ENV === "production") {
+      console.warn("⚠️ JWT_SECRET environment variable is not set. Using fallback secret for demo deployment.");
+    }
+    return "eventease-jwt-secret-fallback-key-2025";
   }
   return secret;
 }
@@ -389,11 +392,8 @@ router.post("/google", authLimiter, async (req, res) => {
 });
 
 // ─── POST /api/auth/mock ──────────────────────────────────────────────────────
-// Disabled in production — only for local dev/demo
+// Enabled for demo showcase and local development
 router.post("/mock", async (req, res) => {
-  if (process.env.NODE_ENV === "production") {
-    return res.status(404).json({ message: "Not found." });
-  }
   try {
     const mockData = {
       name:   "Demo Planner",
