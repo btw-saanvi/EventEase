@@ -2,10 +2,17 @@ import axios from "axios";
 
 const envApiUrl = import.meta.env.VITE_API_URL;
 
-// If VITE_API_URL is explicitly set, use it.
-// Otherwise, in production use "/api" (which Vercel proxies), 
-// and in development use localhost.
-const API_URL = envApiUrl || (import.meta.env.PROD ? "/api" : "http://localhost:5000/api");
+// A localhost URL can only ever work for the machine serving the page, so it is
+// meaningless in a production build. This guard keeps a stray local .env value
+// (e.g. VITE_API_URL=http://localhost:5000/api) from being baked into a deploy,
+// where it would make every API call fail.
+const isLocalhostUrl = (url) => /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?/i.test(url || "");
+
+// Explicit VITE_API_URL wins, except for localhost URLs in production.
+// Otherwise production uses "/api" (proxied by Vercel) and dev uses localhost.
+const resolvedEnvUrl = envApiUrl && !(import.meta.env.PROD && isLocalhostUrl(envApiUrl)) ? envApiUrl : "";
+
+const API_URL = resolvedEnvUrl || (import.meta.env.PROD ? "/api" : "http://localhost:5000/api");
 
 const api = axios.create({
   baseURL: API_URL,

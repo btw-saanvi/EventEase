@@ -85,8 +85,6 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} EventEase. All rights reserved........to me ofcourse</p>
           <p>
             My socials are used because it's my web app and none of your business.
-              <br />
-            I hope both sides of your pillow are sweetly cool.
           </p>
         </div>
       </div>

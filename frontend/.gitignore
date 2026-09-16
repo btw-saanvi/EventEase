@@ -7,6 +7,12 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Local env files (keep .env.example tracked). Committing .env baked
+# VITE_API_URL=http://localhost:5000/api into production builds.
+.env
+.env.*
+!.env.example
+
 node_modules
 dist
 dist-ssr

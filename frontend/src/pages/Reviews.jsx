@@ -205,20 +205,20 @@ export default function Reviews() {
 
   const createMutation = useMutation({
     mutationFn: (d) => api.post("/reviews", d),
-    onSuccess: () => { queryClient.invalidateQueries(["reviews"]); toast.success("Review submitted!"); setShowModal(false); },
-    onError: () => toast.error("Failed to submit review"),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["reviews"] }); toast.success("Review submitted!"); setShowModal(false); },
+    onError: (err) => toast.error(err?.response?.data?.message || "Failed to submit review"),
   });
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }) => api.put(`/reviews/${id}`, data),
-    onSuccess: () => { queryClient.invalidateQueries(["reviews"]); toast.success("Review updated!"); setEditReview(null); },
-    onError: () => toast.error("Failed to update review"),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["reviews"] }); toast.success("Review updated!"); setEditReview(null); },
+    onError: (err) => toast.error(err?.response?.data?.message || "Failed to update review"),
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id) => api.delete(`/reviews/${id}`),
-    onSuccess: () => { queryClient.invalidateQueries(["reviews"]); toast.success("Review deleted"); },
-    onError: () => toast.error("Failed to delete"),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["reviews"] }); toast.success("Review deleted"); },
+    onError: (err) => toast.error(err?.response?.data?.message || "Failed to delete"),
   });
 
   const avgRating = reviews.length > 0

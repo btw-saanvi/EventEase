@@ -138,27 +138,39 @@ export default function Budget() {
   const remaining = totalBudget - totalSpent;
   const spentPercent = Math.min(100, (totalSpent / (totalBudget || 1)) * 100);
 
+  // The total budget is stored server-side, so hydrate the local state from it.
+  // Without this the page kept showing the 50,000 starter value and silently
+  // ignored whatever the user had saved, which made every expense total look wrong.
+  useEffect(() => {
+    if (editingBudget) return; // never clobber the input while the user is typing
+    const saved = data?.totalBudget;
+    if (typeof saved === "number" && Number.isFinite(saved) && saved > 0) {
+      setTotalBudget(saved);
+    }
+  }, [data?.totalBudget, editingBudget]);
+
   const createMutation = useMutation({
     mutationFn: (d) => api.post("/budget/expenses", { ...d, eventId: selectedEventId }),
-    onSuccess: () => { queryClient.invalidateQueries(["budget", selectedEventId]); toast.success("Expense added!"); setShowModal(false); },
-    onError: () => toast.error("Failed to add expense"),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["budget", selectedEventId] }); toast.success("Expense added!"); setShowModal(false); },
+    onError: (err) => toast.error(err?.response?.data?.message || "Failed to add expense"),
   });
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }) => api.put(`/budget/expenses/${id}`, data),
-    onSuccess: () => { queryClient.invalidateQueries(["budget", selectedEventId]); toast.success("Expense updated!"); setEditExpense(null); },
-    onError: () => toast.error("Failed to update"),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["budget", selectedEventId] }); toast.success("Expense updated!"); setEditExpense(null); },
+    onError: (err) => toast.error(err?.response?.data?.message || "Failed to update"),
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id) => api.delete(`/budget/expenses/${id}`),
-    onSuccess: () => { queryClient.invalidateQueries(["budget", selectedEventId]); toast.success("Expense removed"); },
-    onError: () => toast.error("Failed to delete"),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["budget", selectedEventId] }); toast.success("Expense removed"); },
+    onError: (err) => toast.error(err?.response?.data?.message || "Failed to delete"),
   });
 
   const updateBudgetMutation = useMutation({
     mutationFn: (amount) => api.put("/budget", { totalBudget: amount }),
-    onSuccess: () => { queryClient.invalidateQueries(["budget", selectedEventId]); toast.success("Budget updated"); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["budget", selectedEventId] }); toast.success("Budget updated"); },
+    onError: (err) => toast.error(err?.response?.data?.message || "Failed to update budget"),
   });
 
   // Category breakdown
